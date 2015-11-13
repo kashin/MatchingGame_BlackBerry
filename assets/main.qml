@@ -19,9 +19,18 @@ import bb.cascades 1.4
 Page {
     Container {
         WebView {
-            id: mainScreen
+            id: mainScreenWebView
             url: "local:///assets/html/face_matching.html"
             settings.javaScriptEnabled: true;
+            onLoadingChanged: {
+                console.log("loading changed to " + loadRequest.status);
+            }
+        }
+        attachedObjects: LayoutUpdateHandler {
+            onLayoutFrameChanged: {
+                mainScreenWebView.preferredWidth = layoutFrame.width;
+                mainScreenWebView.preferredHeight = layoutFrame.height;
+            }
         }
     }
 }

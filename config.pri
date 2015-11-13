@@ -37,6 +37,7 @@ simulator {
 config_pri_assets {
     OTHER_FILES += \
         $$quote($$BASEDIR/assets/html/face_matching.html) \
+        $$quote($$BASEDIR/assets/images/game_background.png) \
         $$quote($$BASEDIR/assets/images/smile.png) \
         $$quote($$BASEDIR/assets/main.qml)
 }

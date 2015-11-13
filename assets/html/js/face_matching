@@ -1,10 +1,11 @@
 var facesNumber = 5;
-var imgSrcUrl = 'http://home.cse.ust.hk/~rossiter/mooc/matching_game/smile.png';
+var imgSrcUrl = 'local:///assets/images/smile.png';
 var leftSide;
 var rightSide;
 var bodyElement;
 
 function init() {
+  console.error('init is called');
   leftSide = document.getElementById('leftGameSide');
   rightSide = document.getElementById('rightGameSide');
   bodyElement = document.getElementsByTagName('body')[0];
@@ -25,7 +26,7 @@ function regenerateSmiles() {
     imgElement = document.createElement('img');
     imgElement.src = imgSrcUrl;
     imgElement.style.position = 'absolute';
-    imgElement.style.top = Math.floor(Math.random() * leftSide.offsetHeight - 80) + 'px';
+    imgElement.style.top = Math.floor(Math.random() * (leftSide.offsetHeight - 80)) + 'px';
     imgElement.style.left = Math.floor(Math.random() * (leftSide.offsetWidth - 81)) +
                             'px'; // -81 because 80 px for img size + 1 for border size.
     leftSide.appendChild(imgElement);

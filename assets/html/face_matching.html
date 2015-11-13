@@ -1,7 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="js/face_matching.js"></script>
+<meta charset="UTF-8">
+<script>
+var facesNumber = 5;
+var imgSrcUrl = 'local:///assets/images/smile.png';
+var leftSide;
+var rightSide;
+var bodyElement;
+
+function init() {
+  console.error('init is called');
+  leftSide = document.getElementById('leftGameSide');
+  rightSide = document.getElementById('rightGameSide');
+  bodyElement = document.getElementsByTagName('body')[0];
+  regenerateSmiles();
+}
+
+function clearAllChildNodes(element) {
+  while(element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}
+
+function regenerateSmiles() {
+  clearAllChildNodes(leftSide);
+  clearAllChildNodes(rightSide);
+  var imgElement;
+  for (var i = 0; i < facesNumber; i++) {
+    imgElement = document.createElement('img');
+    imgElement.src = imgSrcUrl;
+    imgElement.style.position = 'absolute';
+    console.log('height=' + leftSide.offsetHeight);
+    imgElement.style.top = Math.floor(Math.random() * (leftSide.offsetHeight - 80)) + 'px';
+    imgElement.style.left = Math.floor(Math.random() * (leftSide.offsetWidth - 81)) +
+                            'px'; // -81 because 80 px for img size + 1 for border size.
+    leftSide.appendChild(imgElement);
+  }
+  imagesElement = leftSide.cloneNode(true);
+  imagesElement.id = '';
+  imagesElement.classList.remove('left');
+  imagesElement.classList.remove('game-panel');
+  imagesElement.removeChild(imagesElement.lastChild);
+  rightSide.appendChild(imagesElement);
+  leftSide.lastChild.onclick = function correctFaceClicked(event){
+    event.stopPropagation();
+    facesNumber += 5;
+    regenerateSmiles();
+  };
+  bodyElement.onclick = function gameOver() {
+    alert("Game Over! New game will be automatically started in 5 seconds");
+    setTimeout(regenerateSmiles, 5000);
+    facesNumber = 5;
+    bodyElement.onclick = null;
+    leftSide.lastChild.onclick = null;
+  }; 
+}
+</script>
 <style>
 
 html {
@@ -22,9 +77,9 @@ body {
 
 .game-panel {
   width: 50%;
-  height: 100%;
+  height: calc(100% - 12rem);
   position: absolute;
-  top: 150px;
+  top: 12rem;
 }
 
 .left {
@@ -43,6 +98,14 @@ body {
   top: 0rem;
 }
 
+.gameFields {
+  width: 100%;
+  height: calc(100% - 10rem);
+  position: absolute;
+  top: 10rem;
+  background: url('local:///assets/images/game_background.png') repeat;
+}
+
 img {
   position:absolute;
   height: 80px;
@@ -56,6 +119,7 @@ img {
       <h1>Matching Game</h1>
       <p>Click on the extra smiling face on the left</p>
     </div>
+    <div class="gameFields"></div>
     <div id="leftGameSide" class="game-panel left"></div>
     <div id="rightGameSide" class="game-panel right"></div>
   </div>
