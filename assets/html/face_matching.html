@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="js/face_matching.js"></script>
+<style>
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+}
+
+.mainPanel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.game-panel {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  top: 150px;
+}
+
+.left {
+  left: 0rem;
+  border-right: 1px solid black;
+}
+
+.right {
+  right: 0rem;
+}
+
+.headerPanel {
+  height: 10rem;
+  width: 100%;
+  position: absolute;
+  top: 0rem;
+}
+
+img {
+  position:absolute;
+  height: 80px;
+  width: 80px;
+}
+</style>
+</head>
+<body onload="init()">
+  <div class="mainPanel">
+    <div class="headerPanel">
+      <h1>Matching Game</h1>
+      <p>Click on the extra smiling face on the left</p>
+    </div>
+    <div id="leftGameSide" class="game-panel left"></div>
+    <div id="rightGameSide" class="game-panel right"></div>
+  </div>
+</body>
+</html>
