@@ -33,5 +33,4 @@ Makefile*
 *.qmlproject.user
 *.qmlproject.user.*
 
-*arm/*
-*.settings/*
+.settings/*

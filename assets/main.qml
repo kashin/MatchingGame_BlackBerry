@@ -21,10 +21,6 @@ Page {
         WebView {
             id: mainScreenWebView
             url: "local:///assets/html/face_matching.html"
-            settings.javaScriptEnabled: true;
-            onLoadingChanged: {
-                console.log("loading changed to " + loadRequest.status);
-            }
         }
         attachedObjects: LayoutUpdateHandler {
             onLayoutFrameChanged: {
