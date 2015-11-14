@@ -21,6 +21,15 @@ Page {
         WebView {
             id: mainScreenWebView
             url: "local:///assets/html/face_matching.html"
+            onMessageReceived: {
+                if (message.data.indexOf("imgCounter") >= 0) {
+                    var data = message.data.substring(message.data.indexOf(":") + 1);
+                    console.log("received img message data: " + data);
+                } else if (message.data.indexOf("gameOver") >= 0) {
+                    var data = message.data.substring(message.data.indexOf(":") + 1);
+                    console.log("received message data: " + data);
+                }
+            }
         }
         attachedObjects: LayoutUpdateHandler {
             onLayoutFrameChanged: {

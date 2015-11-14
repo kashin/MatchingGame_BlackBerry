@@ -1,14 +1,20 @@
-var facesNumber = 5;
+const initialFacesNumber = 5;
+const initialLevel = 1;
+var facesNumber = initialFacesNumber;
+var levelCounter = initialLevel;
 var imgSrcUrl = 'local:///assets/images/smile.png';
 var leftSide;
 var rightSide;
-var bodyElement;
 
 function init() {
-  console.error('init is called');
   leftSide = document.getElementById('leftGameSide');
   rightSide = document.getElementById('rightGameSide');
-  bodyElement = document.getElementsByTagName('body')[0];
+  startGame();
+}
+
+function startGame() {
+  facesNumber = initialFacesNumber;
+  levelCounter = initialLevel;
   regenerateSmiles();
 }
 
@@ -40,15 +46,24 @@ function regenerateSmiles() {
   leftSide.lastChild.onclick = function correctFaceClicked(event){
     event.stopPropagation();
     facesNumber += 5;
+    levelCounter++;
+    navigator.cascades.postMessage('imgCounter:' + facesNumber);
     regenerateSmiles();
   };
-  bodyElement.onclick = function gameOver() {
-    alert("Game Over! New game will be automatically started in 5 seconds");
-    setTimeout(regenerateSmiles, 5000);
-    facesNumber = 5;
-    bodyElement.onclick = null;
+  leftSide.onclick = function gameOver() {
+    navigator.cascades.postMessage('gameOver:' + levelCounter);
+    leftSide.onclick = null;
     leftSide.lastChild.onclick = null;
   }; 
+}
+
+// handles messages received via WebView.postMessage()
+navigator.cascades.onmessage = function onmessage(message) {
+  if (message === 'startGame') {
+    startGame();
+  } else {
+    console.log('unhandled message: ' + message);
+  }
 }
 
 

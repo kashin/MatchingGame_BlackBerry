@@ -3,17 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <script>
-var facesNumber = 5;
+const initialFacesNumber = 5;
+const initialLevel = 1;
+var facesNumber = initialFacesNumber;
+var levelCounter = initialLevel;
 var imgSrcUrl = 'local:///assets/images/smile.png';
 var leftSide;
 var rightSide;
-var bodyElement;
 
 function init() {
-  console.error('init is called');
   leftSide = document.getElementById('leftGameSide');
   rightSide = document.getElementById('rightGameSide');
-  bodyElement = document.getElementsByTagName('body')[0];
+  startGame();
+}
+
+function startGame() {
+  facesNumber = initialFacesNumber;
+  levelCounter = initialLevel;
   regenerateSmiles();
 }
 
@@ -31,7 +37,6 @@ function regenerateSmiles() {
     imgElement = document.createElement('img');
     imgElement.src = imgSrcUrl;
     imgElement.style.position = 'absolute';
-    console.log('height=' + leftSide.offsetHeight);
     imgElement.style.top = Math.floor(Math.random() * (leftSide.offsetHeight - 80)) + 'px';
     imgElement.style.left = Math.floor(Math.random() * (leftSide.offsetWidth - 81)) +
                             'px'; // -81 because 80 px for img size + 1 for border size.
@@ -46,16 +51,28 @@ function regenerateSmiles() {
   leftSide.lastChild.onclick = function correctFaceClicked(event){
     event.stopPropagation();
     facesNumber += 5;
+    levelCounter++;
+    navigator.cascades.postMessage('imgCounter:' + facesNumber);
     regenerateSmiles();
   };
-  bodyElement.onclick = function gameOver() {
-    alert("Game Over! New game will be automatically started in 5 seconds");
-    setTimeout(regenerateSmiles, 5000);
-    facesNumber = 5;
-    bodyElement.onclick = null;
+  leftSide.onclick = function gameOver() {
+    navigator.cascades.postMessage('gameOver:' + levelCounter);
+    leftSide.onclick = null;
     leftSide.lastChild.onclick = null;
   }; 
 }
+
+// handles messages received via WebView.postMessage()
+navigator.cascades.onmessage = function onmessage(message) {
+  if (message === 'startGame') {
+    startGame();
+  } else {
+    console.log('unhandled message: ' + message);
+  }
+}
+
+
+
 </script>
 <style>
 
