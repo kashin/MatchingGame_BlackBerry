@@ -69,24 +69,37 @@ Sheet {
                 TextField {
                     id: loginField
                     hintText: qsTr("Enter Login")
+                    inputMode: TextFieldInputMode.Text
                 }
                 Label {
                     id: passwordLabel
-                    text: qsTr("Login")
+                    text: qsTr("Password")
                 }
                 TextField {
                     id: passwordField
                     hintText: qsTr("Enter Password")
+                    inputMode: TextFieldInputMode.Password
+                }
+                Button {
+                    id: signinButton
+                    text: qsTr("Sign In")
+                    onClicked: {
+                        console.log("trying to signIn");
+                    }
                 }
             }
-        }
+        } // Container
     } // Page
     attachedObjects: [
         Settings {
             id: appSettings
+        },
+        LeaderboardHelper {
+            id: leaderboardHelper
         }
     ]
     onCreationCompleted: {
+        leaderboardHelper.initialize();
         switch(appSettings.difficulty) {
             case Settings.EasyDifficulty:
                 difficultyDropDown.selectedIndex = 0;

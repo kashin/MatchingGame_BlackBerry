@@ -39,6 +39,14 @@
         <source>Enter Password</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Sign In</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>game</name>

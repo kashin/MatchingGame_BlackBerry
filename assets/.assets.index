@@ -1,5 +1,5 @@
 1
-11
+12
 game.qml
 html/face_matching.html
 html/js/face_matching
@@ -10,4 +10,5 @@ images/gameIcons/star.png
 images/gameIcons/sun.png
 images/game_background.png
 main.qml
+parseKey/parse_key.data
 SettingsSheet.qml
