@@ -1,7 +1,12 @@
 1
-5
+10
+game.qml
 html/face_matching.html
 html/js/face_matching
+html/style/style.css
+images/gameIcons/hamster.png
+images/gameIcons/smile.png
+images/gameIcons/star.png
+images/gameIcons/sun.png
 images/game_background.png
-images/smile.png
 main.qml

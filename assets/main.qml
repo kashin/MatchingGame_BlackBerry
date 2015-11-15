@@ -1,41 +1,54 @@
-/*
- * Copyright (c) 2011-2015 BlackBerry Limited.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import bb.cascades 1.4
 
-Page {
-    Container {
-        WebView {
-            id: mainScreenWebView
-            url: "local:///assets/html/face_matching.html"
-            onMessageReceived: {
-                if (message.data.indexOf("imgCounter") >= 0) {
-                    var data = message.data.substring(message.data.indexOf(":") + 1);
-                    console.log("received img message data: " + data);
-                } else if (message.data.indexOf("gameOver") >= 0) {
-                    var data = message.data.substring(message.data.indexOf(":") + 1);
-                    console.log("received message data: " + data);
+NavigationPane {
+    id: navigationPane
+    Page {
+        Container {
+            layout: DockLayout {}
+            Container {
+                Button {
+                    id: startGameButton
+                    text: qsTr("Start Game")
+                    horizontalAlignment: HorizontalAlignment.Center
+                    verticalAlignment: VerticalAlignment.Top
+                    appearance: ControlAppearance.Primary
+                    onClicked: {
+                        startGameAction.triggered();
+                    }
                 }
+                Button {
+                    id: openLeaderboardButton
+                    text: qsTr("Leaderboard")
+                    horizontalAlignment: HorizontalAlignment.Center
+                    verticalAlignment: VerticalAlignment.Bottom
+                    appearance: ControlAppearance.Primary
+                }
+                horizontalAlignment: HorizontalAlignment.Center
+                verticalAlignment: VerticalAlignment.Center
             }
         }
-        attachedObjects: LayoutUpdateHandler {
-            onLayoutFrameChanged: {
-                mainScreenWebView.preferredWidth = layoutFrame.width;
-                mainScreenWebView.preferredHeight = layoutFrame.height;
+        actions: ActionItem {
+            id: startGameAction
+            title: qsTr("Start Game")
+            ActionBar.placement: ActionBarPlacement.OnBar
+            shortcuts: [
+                Shortcut {
+                    key: "s"
+                    onTriggered: {
+                        startGameAction.triggered();
+                    }
+                }
+            ]
+            onTriggered: {
+                var gamePage = gamePageDefinition.createObject();
+                navigationPane.push(gamePage);
             }
+            attachedObjects: [
+                ComponentDefinition {
+                    id: gamePageDefinition
+                    source: "game.qml"
+                }
+            ]
         }
     }
 }

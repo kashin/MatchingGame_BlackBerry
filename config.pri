@@ -36,9 +36,14 @@ simulator {
 
 config_pri_assets {
     OTHER_FILES += \
+        $$quote($$BASEDIR/assets/game.qml) \
         $$quote($$BASEDIR/assets/html/face_matching.html) \
+        $$quote($$BASEDIR/assets/html/style/style.css) \
+        $$quote($$BASEDIR/assets/images/gameIcons/hamster.png) \
+        $$quote($$BASEDIR/assets/images/gameIcons/smile.png) \
+        $$quote($$BASEDIR/assets/images/gameIcons/star.png) \
+        $$quote($$BASEDIR/assets/images/gameIcons/sun.png) \
         $$quote($$BASEDIR/assets/images/game_background.png) \
-        $$quote($$BASEDIR/assets/images/smile.png) \
         $$quote($$BASEDIR/assets/main.qml)
 }
 
@@ -49,8 +54,6 @@ config_pri_source_group1 {
 
     HEADERS += $$quote($$BASEDIR/src/applicationui.hpp)
 }
-
-INCLUDEPATH += $$quote($$BASEDIR/src)
 
 CONFIG += precompile_header
 
@@ -72,9 +75,15 @@ lupdate_inclusion {
         $$quote($$BASEDIR/../assets/html/js/*.qml) \
         $$quote($$BASEDIR/../assets/html/js/*.js) \
         $$quote($$BASEDIR/../assets/html/js/*.qs) \
+        $$quote($$BASEDIR/../assets/html/style/*.qml) \
+        $$quote($$BASEDIR/../assets/html/style/*.js) \
+        $$quote($$BASEDIR/../assets/html/style/*.qs) \
         $$quote($$BASEDIR/../assets/images/*.qml) \
         $$quote($$BASEDIR/../assets/images/*.js) \
-        $$quote($$BASEDIR/../assets/images/*.qs)
+        $$quote($$BASEDIR/../assets/images/*.qs) \
+        $$quote($$BASEDIR/../assets/images/gameIcons/*.qml) \
+        $$quote($$BASEDIR/../assets/images/gameIcons/*.js) \
+        $$quote($$BASEDIR/../assets/images/gameIcons/*.qs)
 
     HEADERS += \
         $$quote($$BASEDIR/../src/*.h) \

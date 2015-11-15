@@ -1,0 +1,38 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+}
+
+.mainPanel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.game-panel {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  top: 0rem;
+  background: url('local:///assets/images/game_background.png') repeat;
+}
+
+.left {
+  left: 0rem;
+  border-right: 4px solid black;
+}
+
+.right {
+  right: 0rem;
+}
+
+img {
+  position:absolute;
+  height: 80px;
+  width: 80px;
+}

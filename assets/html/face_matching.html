@@ -7,7 +7,11 @@ const initialFacesNumber = 5;
 const initialLevel = 1;
 var facesNumber = initialFacesNumber;
 var levelCounter = initialLevel;
-var imgSrcUrl = 'local:///assets/images/smile.png';
+var imgSrcUrls = ['local:///assets/images/gameIcons/hamster.png',
+				  'local:///assets/images/gameIcons/smile.png',
+				  'local:///assets/images/gameIcons/star.png',
+				  'local:///assets/images/gameIcons/sun.png'];
+var imgSrcUrl;
 var leftSide;
 var rightSide;
 
@@ -33,13 +37,14 @@ function regenerateSmiles() {
   clearAllChildNodes(leftSide);
   clearAllChildNodes(rightSide);
   var imgElement;
+  var imgSrcUrl = imgSrcUrls[Math.floor(Math.random() * imgSrcUrls.length)];
   for (var i = 0; i < facesNumber; i++) {
     imgElement = document.createElement('img');
     imgElement.src = imgSrcUrl;
     imgElement.style.position = 'absolute';
     imgElement.style.top = Math.floor(Math.random() * (leftSide.offsetHeight - 80)) + 'px';
-    imgElement.style.left = Math.floor(Math.random() * (leftSide.offsetWidth - 81)) +
-                            'px'; // -81 because 80 px for img size + 1 for border size.
+    imgElement.style.left = Math.floor(Math.random() * (leftSide.offsetWidth - 84)) +
+                            'px'; // -84 because 80 px for img size + 4 for border size.
     leftSide.appendChild(imgElement);
   }
   imagesElement = leftSide.cloneNode(true);
@@ -70,73 +75,12 @@ navigator.cascades.onmessage = function onmessage(message) {
     console.log('unhandled message: ' + message);
   }
 }
-
-
-
 </script>
-<style>
 
-html {
-  width: 100%;
-  height: 100%;
-}
-
-body {
-  width: 100%;
-  height: 100%;
-}
-
-.mainPanel {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.game-panel {
-  width: 50%;
-  height: calc(100% - 12rem);
-  position: absolute;
-  top: 12rem;
-}
-
-.left {
-  left: 0rem;
-  border-right: 1px solid black;
-}
-
-.right {
-  right: 0rem;
-}
-
-.headerPanel {
-  height: 10rem;
-  width: 100%;
-  position: absolute;
-  top: 0rem;
-}
-
-.gameFields {
-  width: 100%;
-  height: calc(100% - 10rem);
-  position: absolute;
-  top: 10rem;
-  background: url('local:///assets/images/game_background.png') repeat;
-}
-
-img {
-  position:absolute;
-  height: 80px;
-  width: 80px;
-}
-</style>
+<link rel="stylesheet" href="style/style.css">
 </head>
 <body onload="init()">
   <div class="mainPanel">
-    <div class="headerPanel">
-      <h1>Matching Game</h1>
-      <p>Click on the extra smiling face on the left</p>
-    </div>
-    <div class="gameFields"></div>
     <div id="leftGameSide" class="game-panel left"></div>
     <div id="rightGameSide" class="game-panel right"></div>
   </div>
