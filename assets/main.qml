@@ -2,6 +2,29 @@ import bb.cascades 1.4
 
 NavigationPane {
     id: navigationPane
+    Menu.definition: MenuDefinition {
+        settingsAction: SettingsActionItem {
+            id: settingsAction
+            property variant createdSheet: 0
+            function onSheetClosed() {
+                delete createdSheet;
+                createdSheet = 0;
+            }
+            onTriggered: {
+                createdSheet = settingsSheetDef.createObject(parent);
+                createdSheet.closed.connect(onSheetClosed);
+                createdSheet.open();
+            }
+        }
+        attachedObjects: [
+            ComponentDefinition {
+                id: settingsSheetDef
+                content: SettingsSheet {
+                    id: settingsSheet
+                }
+            }
+        ]
+    }
     Page {
         Container {
             layout: DockLayout {}

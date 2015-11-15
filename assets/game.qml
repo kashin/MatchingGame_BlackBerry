@@ -1,4 +1,5 @@
 import bb.cascades 1.4
+import don.matching 1.0
 
 Page {
     Container {
@@ -11,14 +12,34 @@ Page {
                 spaceQuota: -1
             }
         }
-        Label {
-            id: currentImgCounter
-            property string baseTextValue: qsTr("Shown images: ")
-            text: baseTextValue + "5"
-            margin.topOffset: 10
-            margin.bottomOffset: 10
-            margin.leftOffset: 10
-            margin.rightOffset: 10
+        Container {
+            layout: StackLayout {
+                orientation: LayoutOrientation.LeftToRight
+            }
+            Label {
+                id: currentImgLabel
+                property string baseTextValue: qsTr("Shown images: ")
+                text: baseTextValue + "5"
+                margin.topOffset: 10
+                margin.bottomOffset: 10
+                margin.leftOffset: 10
+                margin.rightOffset: 10
+                layoutProperties: StackLayoutProperties {
+                    spaceQuota: -1
+                }
+            }
+            Label {
+                id: currentLevelLabel
+                property string baseTextValue: qsTr("Current Level: ")
+                text: baseTextValue + "1"
+                margin.topOffset: 10
+                margin.bottomOffset: 10
+                margin.leftOffset: 10
+                margin.rightOffset: 10
+                layoutProperties: StackLayoutProperties {
+                    spaceQuota: -1
+                }
+            }
             layoutProperties: StackLayoutProperties {
                 spaceQuota: -1
             }
@@ -31,12 +52,23 @@ Page {
                 id: mainScreenWebView
                 url: "local:///assets/html/face_matching.html"
                 onMessageReceived: {
+                    console.log("received message: " + message.data);
                     if (message.data.indexOf("imgCounter") >= 0) {
                         var data = message.data.substring(message.data.indexOf(":") + 1);
-                        currentImgCounter.text = currentImgCounter.baseTextValue + data;
+                        currentImgLabel.text = currentImgLabel.baseTextValue + data;
+                    } else if (message.data.indexOf("currentLevel") >= 0) {
+                        var data = message.data.substring(message.data.indexOf(":") + 1);
+                        currentLevelLabel.text = currentLevelLabel.baseTextValue + data;
                     } else if (message.data.indexOf("gameOver") >= 0) {
                         var data = message.data.substring(message.data.indexOf(":") + 1);
-                        console.log("received message data: " + data);
+                        console.log("game over: " + data);
+                    } else if (message.data.indexOf("readyToStart") >= 0) {
+                        postMessage("startGame");
+                    } else if (message.data === "gameLoaded") {
+                        console.log("posting difficulty message: " + appSettings.difficulty);
+                        postMessage("difficulty:" + appSettings.difficulty);
+                    } else {
+                        console.log('received unhandled message:' + message.data);
                     }
                 }
             }
@@ -56,4 +88,9 @@ Page {
             }
         }
     }
+    attachedObjects: [
+        Settings {
+            id: appSettings
+        }
+    ]
 }

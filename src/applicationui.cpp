@@ -15,6 +15,7 @@
  */
 
 #include "applicationui.hpp"
+#include "Settings.h"
 
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
@@ -39,7 +40,7 @@ ApplicationUI::ApplicationUI() :
 
     // initial load
     onSystemLanguageChanged();
-
+    qmlRegisterType<Settings>("don.matching", 1, 0, "Settings");
     // Create scene document from main.qml asset, the parent is set
     // to ensure the document gets destroyed properly at shut down.
     QmlDocument *qml = QmlDocument::create("asset:///main.qml").parent(this);

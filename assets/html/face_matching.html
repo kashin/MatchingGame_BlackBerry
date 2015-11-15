@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <script>
-const initialFacesNumber = 5;
 const initialLevel = 1;
+var initialFacesNumber = 5;
 var facesNumber = initialFacesNumber;
 var levelCounter = initialLevel;
 var imgSrcUrls = ['local:///assets/images/gameIcons/hamster.png',
@@ -18,7 +18,7 @@ var rightSide;
 function init() {
   leftSide = document.getElementById('leftGameSide');
   rightSide = document.getElementById('rightGameSide');
-  startGame();
+  bodyLoaded();
 }
 
 function startGame() {
@@ -55,9 +55,10 @@ function regenerateSmiles() {
   rightSide.appendChild(imagesElement);
   leftSide.lastChild.onclick = function correctFaceClicked(event){
     event.stopPropagation();
-    facesNumber += 5;
+    facesNumber += initialFacesNumber;
     levelCounter++;
     navigator.cascades.postMessage('imgCounter:' + facesNumber);
+    navigator.cascades.postMessage('currentLevel:' + levelCounter);
     regenerateSmiles();
   };
   leftSide.onclick = function gameOver() {
@@ -71,10 +72,19 @@ function regenerateSmiles() {
 navigator.cascades.onmessage = function onmessage(message) {
   if (message === 'startGame') {
     startGame();
+  } else if (message.indexOf('difficulty') >= 0) {
+	var data = message.substring(message.indexOf(':') + 1);
+	initialFacesNumber = parseInt(data);
+	navigator.cascades.postMessage('readyToStart');
   } else {
     console.log('unhandled message: ' + message);
   }
 }
+
+function bodyLoaded() {
+  navigator.cascades.postMessage("gameLoaded");
+}
+
 </script>
 
 <link rel="stylesheet" href="style/style.css">
