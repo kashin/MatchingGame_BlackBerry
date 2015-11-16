@@ -1,7 +1,8 @@
 #include "Settings.h"
 
 namespace {
-static const char* DIFFICULTY_KEY = "difficulty";
+static const char *DIFFICULTY_KEY = "difficulty";
+static const char *SESSION_TOKEN = "sessionToken";
 }
 
 Settings::Settings(QObject * parent)
@@ -39,4 +40,14 @@ void Settings::setDifficulty(Difficulty newDifficulty)
 int Settings::difficulty()
 {
     return value(DIFFICULTY_KEY, NormalDifficulty).toInt();
+}
+
+void Settings::setSessionToken(const QString& sessionToken)
+{
+    setValue(SESSION_TOKEN, sessionToken);
+}
+
+QString Settings::sessionToken() const
+{
+    return value(SESSION_TOKEN, QString()).toString();
 }

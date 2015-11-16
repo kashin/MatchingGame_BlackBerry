@@ -25,6 +25,9 @@ public:
     Settings(QObject * parent = 0);
     virtual ~Settings();
 
+    void setSessionToken(const QString &sessionToken);
+    QString sessionToken() const;
+
 public slots:
     void setValue(const QString & key, const QVariant & value);
     QVariant value(const QString & key, const QVariant & defaultValue = QVariant()) const;

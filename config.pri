@@ -36,9 +36,11 @@ simulator {
 
 config_pri_assets {
     OTHER_FILES += \
+        $$quote($$BASEDIR/assets/CredentialsDialog.qml) \
         $$quote($$BASEDIR/assets/SettingsSheet.qml) \
         $$quote($$BASEDIR/assets/game.qml) \
         $$quote($$BASEDIR/assets/html/face_matching.html) \
+        $$quote($$BASEDIR/assets/html/game_screen.css) \
         $$quote($$BASEDIR/assets/html/style/style.css) \
         $$quote($$BASEDIR/assets/images/gameIcons/hamster.png) \
         $$quote($$BASEDIR/assets/images/gameIcons/smile.png) \
@@ -53,12 +55,14 @@ config_pri_source_group1 {
     SOURCES += \
         $$quote($$BASEDIR/src/LeaderboardHelper.cpp) \
         $$quote($$BASEDIR/src/Settings.cpp) \
+        $$quote($$BASEDIR/src/SimpleJSONCreator.cpp) \
         $$quote($$BASEDIR/src/applicationui.cpp) \
         $$quote($$BASEDIR/src/main.cpp)
 
     HEADERS += \
         $$quote($$BASEDIR/src/LeaderboardHelper.h) \
         $$quote($$BASEDIR/src/Settings.h) \
+        $$quote($$BASEDIR/src/SimpleJSONCreator.h) \
         $$quote($$BASEDIR/src/applicationui.hpp)
 }
 

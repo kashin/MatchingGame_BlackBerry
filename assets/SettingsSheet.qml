@@ -59,43 +59,39 @@ Sheet {
                     }
                 }
             } // Difficulty DropDown
-            Container {
-                id: userCredentials
-                visible: false
-                Label {
-                    id: loginLabel
-                    text: qsTr("Login")
-                }
-                TextField {
-                    id: loginField
-                    hintText: qsTr("Enter Login")
-                    inputMode: TextFieldInputMode.Text
-                }
-                Label {
-                    id: passwordLabel
-                    text: qsTr("Password")
-                }
-                TextField {
-                    id: passwordField
-                    hintText: qsTr("Enter Password")
-                    inputMode: TextFieldInputMode.Password
-                }
-                Button {
-                    id: signinButton
-                    text: qsTr("Sign In")
-                    onClicked: {
-                        console.log("trying to signIn");
+            Button {
+                id: credentialsButton
+                property string signInButtonText: qsTr("SignUp/SignIn")
+                property string logoutButtonText: qsTr("Logout")
+                text: signInButtonText
+                onClicked: {
+                    if (leaderboardHelper.signedIn) {
+                        leaderboardHelper.signOut();
+                        settingsSheet.updateSignInVisuals();
+                    } else {
+                        credentialsDialog.open();
                     }
                 }
             }
         } // Container
     } // Page
+    function updateSignInVisuals() {
+        credentialsButton.text = leaderboardHelper.signedIn 
+                                ? credentialsButton.logoutButtonText
+                                : credentialsButton.signInButtonText;
+    }
     attachedObjects: [
         Settings {
             id: appSettings
         },
         LeaderboardHelper {
             id: leaderboardHelper
+        },
+        CredentialsDialog {
+            id: credentialsDialog
+            onClosed: {
+                settingsSheet.updateSignInVisuals();
+            }
         }
     ]
     onCreationCompleted: {
@@ -114,5 +110,6 @@ Sheet {
                 console.log("Unknown difficulty level");
                 break;
         }
+        updateSignInVisuals();
     }
 }

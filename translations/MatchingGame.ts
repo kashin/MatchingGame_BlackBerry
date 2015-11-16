@@ -2,6 +2,46 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>CredentialsDialog</name>
+    <message>
+        <source>Enter your loging and password to </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sign In</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sign Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Can not sign in to your account.
+ Check your credenials and internet connectivity and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SettingsSheet</name>
     <message>
         <source>Close</source>
@@ -28,23 +68,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Login</source>
+        <source>SignUp/SignIn</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enter Login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter Password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sign In</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Password</source>
+        <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
