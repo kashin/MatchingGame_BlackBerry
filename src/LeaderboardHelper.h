@@ -18,6 +18,16 @@ class LeaderboardHelper: public QObject
     };
 public:
 
+    Q_ENUMS(Errors)
+
+    enum Errors {
+        GeneralNoError = 0,
+        SignUpAccountExists = 1,
+        SignUpNetworkError = 2,
+        SignInWrongCredentials = 3,
+        SignInUserDoNotExist = 4
+    };
+
     /**
      * This property will be set to true if we already signed in
      */
@@ -35,8 +45,8 @@ public slots:
 
 signals:
     void signedInChanged(bool);
-    void signUpCompleted(bool success);
-    void signInCompleted(bool success);
+    void signUpCompleted(bool success, int error);
+    void signInCompleted(bool success, int error);
 
 private slots:
     void onReplyFinished();
@@ -47,6 +57,7 @@ private:
     void configureStandardRequest(QNetworkRequest &request, const QString &path);
     void connectReplySignals();
     void handleSignUpResult();
+    void handleSignUpResultError(QNetworkReply::NetworkError error);
 
 private:
     QNetworkAccessManager *mNetworkManager;

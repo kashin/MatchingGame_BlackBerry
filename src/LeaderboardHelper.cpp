@@ -1,5 +1,6 @@
 #include "LeaderboardHelper.h"
 #include "SimpleJSONCreator.h"
+#include "JSONObject.h"
 #include "Settings.h"
 
 // Qt
@@ -25,6 +26,9 @@ namespace {
     // JSON data
     static const QLatin1String USERSNAME_FIELD("username");
     static const QLatin1String PASSWORD_FIELD("password");
+    static const QLatin1String CRATED_AT_FIELD("createdAt");
+    static const QLatin1String OBJECT_ID_FIELD("objectId");
+    static const QLatin1String SESSION_TOKEN_FIELD("sessionToken");
 }
 
 LeaderboardHelper::LeaderboardHelper(QObject *parent)
@@ -102,6 +106,9 @@ void LeaderboardHelper::connectReplySignals()
 
 void LeaderboardHelper::onReplyFinished()
 {
+    if (!mReply) {
+        return;
+    }
     switch(mState) {
         case Idle:
             Q_ASSERT(!"received reply in Idle state");
@@ -120,6 +127,17 @@ void LeaderboardHelper::onReplyFinished()
 void LeaderboardHelper::onReplyError(QNetworkReply::NetworkError networkError)
 {
     qCritical() << "network request failed with error" << networkError;
+    switch(mState) {
+        case Idle:
+            Q_ASSERT(!"received reply in Idle state");
+            break;
+        case SignUpInProgress:
+            handleSignUpResultError(networkError);
+            break;
+        default:
+            qCritical() << "unhandled leaderboard state" << mState;
+            break;
+    }
     mReply->deleteLater();
     mReply = NULL;
 }
@@ -140,14 +158,40 @@ void LeaderboardHelper::signOut()
 void LeaderboardHelper::handleSignUpResult()
 {
     QNetworkReply::NetworkError error = mReply->error();
-    qDebug() << "all reply headers:" << mReply->rawHeaderPairs();
+    const QList<QPair<QByteArray, QByteArray> > &headers = mReply->rawHeaderPairs();
+    const QByteArray &data = mReply->readAll();
+    qDebug() << "all reply headers:" << headers;
+    qDebug() << "received data:" << data;
     bool success = error == QNetworkReply::NoError;
     if (success) {
-        const QByteArray &data = mReply->readAll();
-        qDebug() << "received data:" << data;
-        // TODO: parse the response
+        JSONObject *parsedObject = new JSONObject(this);
+        parsedObject->parseJSONData(data);
+        typedef QPair<QString, QString> JsonValue;
+        foreach(const JsonValue &value, parsedObject->values()) {
+            if (value.first.compare(CRATED_AT_FIELD) == 0) {
+                qDebug() << "user created at:" << value.second;
+            } else if (value.first.compare(OBJECT_ID_FIELD) == 0) {
+                qDebug() << "objectId:" << value.second;
+            } else if (value.first.compare(SESSION_TOKEN_FIELD) == 0) {
+                qDebug() << "sessionToken:" << value.second;
+                Settings settings;
+                settings.setSessionToken(value.second);
+            }
+        }
+        parsedObject->deleteLater();
     } else {
         qWarning() << "request failed with error:" << error;
     }
-    emit signUpCompleted(success);
+    emit signUpCompleted(success, GeneralNoError);
+}
+
+void LeaderboardHelper::handleSignUpResultError(QNetworkReply::NetworkError error)
+{
+    Errors operationError = GeneralNoError;
+    if (error != QNetworkReply::NoError)  {
+        if (error == QNetworkReply::UnknownContentError) {
+            operationError = SignUpAccountExists;
+        }
+    }
+    emit signUpCompleted(false, operationError);
 }

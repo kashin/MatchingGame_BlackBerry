@@ -1,10 +1,12 @@
 #include "SimpleJSONCreator.h"
+#include "JSONObject.h"
 
 // Qt
 #include <QDebug>
 
 SimpleJSONCreator::SimpleJSONCreator(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      mMainObject(new JSONObject(this))
 {
 }
 
@@ -14,22 +16,17 @@ SimpleJSONCreator::~SimpleJSONCreator()
 
 void SimpleJSONCreator::addValue(const QString& name, const QString& value)
 {
-    mValues.append(qMakePair(name, value));
+    mMainObject->addValue(name, value);
+}
+
+void SimpleJSONCreator::addObject(const QString& name, JSONObject* childObject)
+{
+    mMainObject->addObject(name, childObject);
 }
 
 QByteArray SimpleJSONCreator::getJsonData() const
 {
-    QString result("{");
-    bool first = true;
-    typedef QPair<QString, QString> ValuePair;
-    foreach (const ValuePair &value, mValues) {
-        if (!first) {
-            result.append(",");
-        }
-        result.append('"' + value.first + '"' + ":\"" + value.second + '"');
-        first = false;
-    }
-    result.append('}');
+    const QString &result = mMainObject->jsonData();
     qDebug() << "resulted JSON data:" << result;
     return result.toUtf8();
 }

@@ -40,7 +40,6 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/SettingsSheet.qml) \
         $$quote($$BASEDIR/assets/game.qml) \
         $$quote($$BASEDIR/assets/html/face_matching.html) \
-        $$quote($$BASEDIR/assets/html/game_screen.css) \
         $$quote($$BASEDIR/assets/html/style/style.css) \
         $$quote($$BASEDIR/assets/images/gameIcons/hamster.png) \
         $$quote($$BASEDIR/assets/images/gameIcons/smile.png) \
@@ -53,6 +52,7 @@ config_pri_assets {
 
 config_pri_source_group1 {
     SOURCES += \
+        $$quote($$BASEDIR/src/JSONObject.cpp) \
         $$quote($$BASEDIR/src/LeaderboardHelper.cpp) \
         $$quote($$BASEDIR/src/Settings.cpp) \
         $$quote($$BASEDIR/src/SimpleJSONCreator.cpp) \
@@ -60,6 +60,7 @@ config_pri_source_group1 {
         $$quote($$BASEDIR/src/main.cpp)
 
     HEADERS += \
+        $$quote($$BASEDIR/src/JSONObject.h) \
         $$quote($$BASEDIR/src/LeaderboardHelper.h) \
         $$quote($$BASEDIR/src/Settings.h) \
         $$quote($$BASEDIR/src/SimpleJSONCreator.h) \
