@@ -91,15 +91,35 @@ Check your credenials and internet connectivity and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find the extra image on the left side of the screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Shown images: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Current Level: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find the extra image on the left side of the screen. You have 60 seconds to do it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your score is %1. Do you want to submit your score?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Game Over</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Submitting results.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In progress...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

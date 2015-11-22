@@ -78,6 +78,14 @@ void LeaderboardHelper::signUp(const QString &login, const QString &password)
     jsonCreator->deleteLater();
 }
 
+void LeaderboardHelper::submitNewScore(int newScore, int difficulty, int level)
+{
+    // TODO: implement
+    Q_UNUSED(newScore);
+    Q_UNUSED(difficulty);
+    Q_UNUSED(level)
+}
+
 bool LeaderboardHelper::signedIn()
 {
     Settings settings;
@@ -309,3 +317,4 @@ void LeaderboardHelper::handleUserExistsResultError(QNetworkReply::NetworkError 
 {
     Q_UNUSED(error);
 }
+

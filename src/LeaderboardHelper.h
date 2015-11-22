@@ -47,12 +47,14 @@ public slots:
     void signIn(const QString &login, const QString &password);
     void signOut();
     void checkUserExists(const QString &login);
+    void submitNewScore(int newScore, int difficulty, int level);
 
 signals:
     void signedInChanged(bool);
     void signUpCompleted(bool success, int error);
     void signInCompleted(bool success, int error);
     void userExistsCompleted(bool success, int result);
+    void submitNewScore(bool success, int result);
 
 private slots:
     void onReplyFinished();
