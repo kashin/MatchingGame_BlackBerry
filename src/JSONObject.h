@@ -15,9 +15,14 @@ public:
     void addValue(const QString &name, const QString &value);
 
     /**
-     * This object takes ownership of the childObject after this call
+     * @Note This object takes ownership of the childObject after this call
      */
     void addObject(const QString &name, JSONObject* childObject);
+
+    /**
+     * @Note This object takes ownership of the childObject after this call
+     */
+    void addArrayObject(const QString &name, QList<JSONObject*> childObjects);
 
     /**
      * Returns the resulted JSON data for this object
@@ -34,9 +39,14 @@ public:
         return mChildObjects;
     }
 
+    QList<QPair<QString, QList<JSONObject*> > > childArrayObjects() const {
+        return mChildArrayObjects;
+    }
+
 private:
     QList<QPair<QString, QString> > mValues;
     QList<QPair<QString, JSONObject*> > mChildObjects;
+    QList<QPair<QString, QList<JSONObject*> > > mChildArrayObjects;
 };
 
 #endif /* JSONOBJECT_H_ */

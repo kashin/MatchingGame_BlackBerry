@@ -23,6 +23,8 @@
 #include <bb/cascades/AbstractPane>
 #include <bb/cascades/LocaleHandler>
 
+#include <QTimer>
+
 using namespace bb::cascades;
 
 ApplicationUI::ApplicationUI() :
@@ -43,6 +45,7 @@ ApplicationUI::ApplicationUI() :
     onSystemLanguageChanged();
     qmlRegisterType<Settings>("don.matching", 1, 0, "Settings");
     qmlRegisterType<LeaderboardHelper>("don.matching", 1, 0, "LeaderboardHelper");
+    qmlRegisterType<QTimer>("don.matching", 1, 0, "Timer");
     // Create scene document from main.qml asset, the parent is set
     // to ensure the document gets destroyed properly at shut down.
     QmlDocument *qml = QmlDocument::create("asset:///main.qml").parent(this);

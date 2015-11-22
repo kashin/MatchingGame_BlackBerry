@@ -22,6 +22,14 @@ void JSONObject::addObject(const QString& name, JSONObject* childObject)
     mChildObjects.append(qMakePair(name, childObject));
 }
 
+void JSONObject::addArrayObject(const QString& name, QList<JSONObject*> childObjects)
+{
+    foreach(JSONObject *childObject, childObjects) {
+        childObject->setParent(this);
+    }
+    mChildArrayObjects.append(qMakePair(name, childObjects));
+}
+
 QString JSONObject::jsonData() const
 {
     QString result('{');
@@ -88,6 +96,29 @@ void JSONObject::parseJSONData(const QByteArray& data)
             newObject->parseJSONData(currentValueStr.toUtf8());
             mChildObjects.append(qMakePair(valueName, newObject));
             restDataStr.remove(0, indexOfEnd + 1);
+        } else if (restDataStr.startsWith('[')) {
+            // ok, we have an array, let's create a list of objects if it's necessary
+            restDataStr.remove(0, 1); // removing '['
+            QList<JSONObject*> arrayObjects;
+            while (!restDataStr.startsWith(']')) {
+                if (restDataStr.startsWith('{')) {
+                    indexOfEnd = restDataStr.indexOf('}');
+                    JSONObject *newObject = new JSONObject(this);
+                    currentValueStr = restDataStr.mid(0, indexOfEnd + 1);
+                    newObject->parseJSONData(currentValueStr.toUtf8());
+                    restDataStr.remove(0, currentValueStr.length());
+                    arrayObjects.append(newObject);
+                } else {
+                    // TODO: add possibility to parse an array of other types as well
+                    qCritical() << "non-object arrays are not supported yet";
+                    return;
+                }
+                if (restDataStr.startsWith(',')) {
+                    restDataStr.remove(0, 1); // removing ','
+                }
+            }
+            restDataStr.remove(0, 1); // removing ']' character
+            mChildArrayObjects.append(qMakePair(valueName, arrayObjects));
         } else {
             if (restDataStr.startsWith('"')) {
                 restDataStr.remove(0, 1);

@@ -16,11 +16,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Can not sign in to your account.
- Check your credenials and internet connectivity and try again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Login</source>
         <translation type="unfinished"></translation>
     </message>
@@ -38,6 +33,19 @@
     </message>
     <message>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Something went wrong.
+Check your credenials and internet connectivity and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, this account name already exists, try to peak another one.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>create new account?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

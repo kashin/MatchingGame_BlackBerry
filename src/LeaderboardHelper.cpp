@@ -21,6 +21,7 @@ namespace {
     static const QLatin1String API_ADDRESS("api.parse.com");
     static const QLatin1String SCHEME("https");
     static const QLatin1String USERS_PATH("/1/users");
+    static const QLatin1String LOGIN_PATH("/1/login");
     static const QLatin1String CONTENT_TYPE_JSON_HEADER_VALUE("application/json");
 
     // JSON data
@@ -29,6 +30,7 @@ namespace {
     static const QLatin1String CRATED_AT_FIELD("createdAt");
     static const QLatin1String OBJECT_ID_FIELD("objectId");
     static const QLatin1String SESSION_TOKEN_FIELD("sessionToken");
+    static const QLatin1String RESULTS_FIELD("results");
 }
 
 LeaderboardHelper::LeaderboardHelper(QObject *parent)
@@ -63,8 +65,7 @@ void LeaderboardHelper::initialize()
 
 void LeaderboardHelper::signUp(const QString &login, const QString &password)
 {
-    Q_UNUSED(login);
-    Q_UNUSED(password);
+    qDebug() << "sending signUp";
     QNetworkRequest request;
     configureStandardRequest(request, USERS_PATH);
     request.setHeader(QNetworkRequest::ContentTypeHeader, CONTENT_TYPE_JSON_HEADER_VALUE);
@@ -89,7 +90,6 @@ void LeaderboardHelper::configureStandardRequest(QNetworkRequest &request, const
     url.setHost(API_ADDRESS);
     url.setScheme(SCHEME);
     url.setPath(path);
-    qDebug() << "url:" << url.toString();
     request.setUrl(url);
     request.setRawHeader(APP_ID_HEADER, mAppId.toUtf8());
     request.setRawHeader(CLIENT_API_HEADER, mAPIKey.toUtf8());
@@ -106,6 +106,7 @@ void LeaderboardHelper::connectReplySignals()
 
 void LeaderboardHelper::onReplyFinished()
 {
+    qDebug() << "replyFinished. State=" << mState;
     if (!mReply) {
         return;
     }
@@ -116,17 +117,26 @@ void LeaderboardHelper::onReplyFinished()
         case SignUpInProgress:
             handleSignUpResult();
             break;
+        case CheckUserExists:
+            handleUserExistsResult();
+            break;
+        case SignInInProgress:
+            handleSignInResult();
+            break;
         default:
             qCritical() << "unhandled leaderboard state" << mState;
             break;
     }
+    mState = Idle;
     mReply->deleteLater();
     mReply = NULL;
 }
 
 void LeaderboardHelper::onReplyError(QNetworkReply::NetworkError networkError)
 {
+    qDebug() << "reply error. State=" << mState << "error:" << networkError;
     qCritical() << "network request failed with error" << networkError;
+    qCritical() << "replyHeaders: " << mReply->rawHeaderPairs();
     switch(mState) {
         case Idle:
             Q_ASSERT(!"received reply in Idle state");
@@ -134,19 +144,30 @@ void LeaderboardHelper::onReplyError(QNetworkReply::NetworkError networkError)
         case SignUpInProgress:
             handleSignUpResultError(networkError);
             break;
+        case CheckUserExists:
+            handleUserExistsResultError(networkError);
+            break;
+        case SignInInProgress:
+            handleSignInResultError(networkError);
+            break;
         default:
             qCritical() << "unhandled leaderboard state" << mState;
             break;
     }
-    mReply->deleteLater();
-    mReply = NULL;
 }
 
 void LeaderboardHelper::signIn(const QString &login, const QString &password)
 {
-    Q_UNUSED(login);
-    Q_UNUSED(password);
-    // TODO: implement
+    qDebug() << "sending signIn";
+    QNetworkRequest request;
+    configureStandardRequest(request, LOGIN_PATH);
+    mState = SignInInProgress;
+    QUrl url = request.url();
+    url.addQueryItem(USERSNAME_FIELD.latin1(), QUrl::toPercentEncoding(login.toUtf8()));
+    url.addQueryItem(PASSWORD_FIELD.latin1(), QUrl::toPercentEncoding(password.toUtf8()));
+    request.setUrl(url);
+    mReply = mNetworkManager->get(request);
+    connectReplySignals();
 }
 
 void LeaderboardHelper::signOut()
@@ -187,11 +208,104 @@ void LeaderboardHelper::handleSignUpResult()
 
 void LeaderboardHelper::handleSignUpResultError(QNetworkReply::NetworkError error)
 {
-    Errors operationError = GeneralNoError;
-    if (error != QNetworkReply::NoError)  {
-        if (error == QNetworkReply::UnknownContentError) {
-            operationError = SignUpAccountExists;
+    Q_UNUSED(error);
+}
+
+void LeaderboardHelper::checkUserExists(const QString& login)
+{
+    qDebug() << "sending user exists";
+    mTmpLogin = login;
+    QNetworkRequest request;
+    configureStandardRequest(request, USERS_PATH);
+    mState = CheckUserExists;
+    mReply = mNetworkManager->get(request);
+    connectReplySignals();
+}
+
+void LeaderboardHelper::handleSignInResult()
+{
+    QNetworkReply::NetworkError error = mReply->error();
+    const QList<QPair<QByteArray, QByteArray> > &headers = mReply->rawHeaderPairs();
+    const QByteArray &data = mReply->readAll();
+    qDebug() << "all reply headers:" << headers;
+    qDebug() << "received data:" << data;
+    bool success = error == QNetworkReply::NoError;
+    int operationResult = GeneralError;
+    if (success) {
+        JSONObject *parsedObject = new JSONObject(this);
+        parsedObject->parseJSONData(data);
+        typedef QPair<QString, QString> JsonValue;
+        foreach(const JsonValue &value, parsedObject->values()) {
+            if (value.first.compare(CRATED_AT_FIELD) == 0) {
+                qDebug() << "user created at:" << value.second;
+            } else if (value.first.compare(OBJECT_ID_FIELD) == 0) {
+                qDebug() << "objectId:" << value.second;
+            } else if (value.first.compare(SESSION_TOKEN_FIELD) == 0) {
+                qDebug() << "sessionToken:" << value.second;
+                Settings settings;
+                settings.setSessionToken(value.second);
+                operationResult = GeneralNoError;
+            }
         }
+        parsedObject->deleteLater();
+    } else {
+        qWarning() << "request failed with error:" << error;
     }
-    emit signUpCompleted(false, operationError);
+    emit signInCompleted(success, operationResult);
+}
+
+void LeaderboardHelper::handleSignInResultError(QNetworkReply::NetworkError error)
+{
+    Q_UNUSED(error);
+}
+
+void LeaderboardHelper::handleUserExistsResult()
+{
+    QNetworkReply::NetworkError error = mReply->error();
+    const QList<QPair<QByteArray, QByteArray> > &headers = mReply->rawHeaderPairs();
+    const QByteArray &data = mReply->readAll();
+    qDebug() << "all reply headers:" << headers;
+    qDebug() << "received data:" << data;
+    bool success = error == QNetworkReply::NoError;
+    int result = GeneralNoError;
+    if (success) {
+        JSONObject *parsedObject = new JSONObject(this);
+        parsedObject->parseJSONData(data);
+        typedef QPair<QString, QList<JSONObject*> > JsonArray;
+        typedef QPair<QString, QString> JsonValue;
+        result = UserDoNotExists;
+        foreach(const JsonArray &array, parsedObject->childArrayObjects()) {
+            if (array.first.compare(RESULTS_FIELD) == 0) {
+                foreach(JSONObject *object, array.second) {
+                    foreach(const JsonValue &value, object->values()) {
+                        if (value.first.compare(USERSNAME_FIELD) == 0) {
+                            if (value.second.compare(mTmpLogin) == 0) {
+                                result = UserExists;
+                            }
+                            break;
+                        }
+                    }
+                    if (result == UserExists) {
+                        break;
+                    }
+                }
+                break;
+            } else {
+                qWarning() << "unexpected value:" << array.first;
+            }
+            if (result == UserExists) {
+                break;
+            }
+        }
+        parsedObject->deleteLater();
+    } else {
+        qWarning() << "request failed with error:" << error;
+    }
+    mTmpLogin.clear();
+    emit userExistsCompleted(success, result);
+}
+
+void LeaderboardHelper::handleUserExistsResultError(QNetworkReply::NetworkError error)
+{
+    Q_UNUSED(error);
 }

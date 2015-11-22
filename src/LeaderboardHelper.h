@@ -14,18 +14,22 @@ class LeaderboardHelper: public QObject
     enum State {
         Idle = 0,
         SignUpInProgress,
-        SignInInProgress
+        SignInInProgress,
+        CheckUserExists
     };
 public:
 
     Q_ENUMS(Errors)
 
     enum Errors {
+        GeneralError = -1,
         GeneralNoError = 0,
         SignUpAccountExists = 1,
         SignUpNetworkError = 2,
         SignInWrongCredentials = 3,
-        SignInUserDoNotExist = 4
+        SignInUserDoNotExist = 4,
+        UserExists = 5,
+        UserDoNotExists = 6
     };
 
     /**
@@ -42,22 +46,27 @@ public slots:
     bool signedIn();
     void signIn(const QString &login, const QString &password);
     void signOut();
+    void checkUserExists(const QString &login);
 
 signals:
     void signedInChanged(bool);
     void signUpCompleted(bool success, int error);
     void signInCompleted(bool success, int error);
+    void userExistsCompleted(bool success, int result);
 
 private slots:
     void onReplyFinished();
     void onReplyError(QNetworkReply::NetworkError networkError);
-
 
 private:
     void configureStandardRequest(QNetworkRequest &request, const QString &path);
     void connectReplySignals();
     void handleSignUpResult();
     void handleSignUpResultError(QNetworkReply::NetworkError error);
+    void handleSignInResult();
+    void handleSignInResultError(QNetworkReply::NetworkError error);
+    void handleUserExistsResult();
+    void handleUserExistsResultError(QNetworkReply::NetworkError error);
 
 private:
     QNetworkAccessManager *mNetworkManager;
@@ -65,6 +74,7 @@ private:
     State mState;
     QString mAppId;
     QString mAPIKey;
+    QString mTmpLogin;
 };
 
 #endif /* LEADERBOARDHELPER_H_ */
