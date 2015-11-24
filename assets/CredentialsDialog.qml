@@ -168,10 +168,6 @@ Dialog {
         updateSubmitButtonState();
     }
 
-    onCreationCompleted: {
-        leaderboardHelper.initialize();
-    }
-
     onClosed: {
         errorLabel.visible = false;
         submitButton.enabled = true;

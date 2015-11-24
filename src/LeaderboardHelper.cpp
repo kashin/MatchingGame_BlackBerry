@@ -18,10 +18,12 @@ namespace {
     static const QByteArray REST_API_HEADER("X-Parse-REST-API-Key");
     static const QByteArray CLIENT_API_HEADER("X-Parse-Client-Key");
     static const QByteArray REVOCABLE_SESSION_HEADER("X-Parse-Revocable-Session");
+    static const QByteArray SESSION_TOKEN_HEADER("X-Parse-Session-Token");
     static const QLatin1String API_ADDRESS("api.parse.com");
     static const QLatin1String SCHEME("https");
     static const QLatin1String USERS_PATH("/1/users");
     static const QLatin1String LOGIN_PATH("/1/login");
+    static const QLatin1String GAME_SCORE_PATH("/1/classes/GameScore");
     static const QLatin1String CONTENT_TYPE_JSON_HEADER_VALUE("application/json");
 
     // JSON data
@@ -31,6 +33,10 @@ namespace {
     static const QLatin1String OBJECT_ID_FIELD("objectId");
     static const QLatin1String SESSION_TOKEN_FIELD("sessionToken");
     static const QLatin1String RESULTS_FIELD("results");
+    static const QLatin1String PLAYER_NAME_FIELD("playerName");
+    static const QLatin1String DIFFICULTY_FIELD("difficulty");
+    static const QLatin1String LEVEL_FIELD("level");
+    static const QLatin1String SCORE_FIELD("score");
 }
 
 LeaderboardHelper::LeaderboardHelper(QObject *parent)
@@ -39,6 +45,7 @@ LeaderboardHelper::LeaderboardHelper(QObject *parent)
       mReply(NULL),
       mState(Idle)
 {
+    initialize();
 }
 
 LeaderboardHelper::~LeaderboardHelper()
@@ -51,6 +58,9 @@ LeaderboardHelper::~LeaderboardHelper()
 
 void LeaderboardHelper::initialize()
 {
+    if (!mAppId.isEmpty() && !mAPIKey.isEmpty()) {
+        return;
+    }
     QFile file("app/native/assets/parseKey/parse_key.data");
     if (!file.open(QIODevice::ReadOnly)) {
         qCritical() << "can't open file:" << file.errorString();
@@ -80,10 +90,22 @@ void LeaderboardHelper::signUp(const QString &login, const QString &password)
 
 void LeaderboardHelper::submitNewScore(int newScore, int difficulty, int level)
 {
-    // TODO: implement
-    Q_UNUSED(newScore);
-    Q_UNUSED(difficulty);
-    Q_UNUSED(level)
+    QNetworkRequest request;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, CONTENT_TYPE_JSON_HEADER_VALUE);
+    configureStandardRequest(request, GAME_SCORE_PATH);
+    SimpleJSONCreator *jsonCreator = new SimpleJSONCreator(this);
+    Settings appSettings;
+    const QString &playerName = appSettings.playerName();
+    jsonCreator->addValue(PLAYER_NAME_FIELD, playerName.isEmpty() ? appSettings.defaulPlayerName() : playerName);
+    jsonCreator->addValue(SCORE_FIELD, QString::number(newScore));
+    jsonCreator->addValue(DIFFICULTY_FIELD, QString::number(difficulty));
+    jsonCreator->addValue(LEVEL_FIELD, QString::number(level));
+    mState = SubmitNewScoreInProgress;
+    qDebug() << "submiting new score data:" << jsonCreator->getJsonData();
+    qDebug() << "request:" << request.rawHeaderList();
+    mReply = mNetworkManager->post(request, jsonCreator->getJsonData());
+    connectReplySignals();
+    jsonCreator->deleteLater();
 }
 
 bool LeaderboardHelper::signedIn()
@@ -99,9 +121,16 @@ void LeaderboardHelper::configureStandardRequest(QNetworkRequest &request, const
     url.setScheme(SCHEME);
     url.setPath(path);
     request.setUrl(url);
+    qDebug() << "settings headers with keys:" << mAppId << mAPIKey;
     request.setRawHeader(APP_ID_HEADER, mAppId.toUtf8());
     request.setRawHeader(CLIENT_API_HEADER, mAPIKey.toUtf8());
-    request.setRawHeader(REVOCABLE_SESSION_HEADER, "1");
+//    request.setRawHeader(REVOCABLE_SESSION_HEADER, "1");
+//    Settings appSettings;
+//    const QString &sessionToken = appSettings.sessionToken();
+//    if (!sessionToken.isEmpty()) {
+//        qDebug() << "adding session_token header:" << sessionToken;
+//        request.setRawHeader(SESSION_TOKEN_HEADER, sessionToken.toUtf8());
+//    }
 }
 
 void LeaderboardHelper::connectReplySignals()
@@ -131,6 +160,9 @@ void LeaderboardHelper::onReplyFinished()
         case SignInInProgress:
             handleSignInResult();
             break;
+        case SubmitNewScoreInProgress:
+            handleSubmitNewScore();
+            break;
         default:
             qCritical() << "unhandled leaderboard state" << mState;
             break;
@@ -157,6 +189,9 @@ void LeaderboardHelper::onReplyError(QNetworkReply::NetworkError networkError)
             break;
         case SignInInProgress:
             handleSignInResultError(networkError);
+            break;
+        case SubmitNewScoreInProgress:
+            handleSubmitNewScoreError(networkError);
             break;
         default:
             qCritical() << "unhandled leaderboard state" << mState;
@@ -318,3 +353,37 @@ void LeaderboardHelper::handleUserExistsResultError(QNetworkReply::NetworkError 
     Q_UNUSED(error);
 }
 
+void LeaderboardHelper::handleSubmitNewScore()
+{
+    QNetworkReply::NetworkError error = mReply->error();
+    const QList<QPair<QByteArray, QByteArray> > &headers = mReply->rawHeaderPairs();
+    const QByteArray &data = mReply->readAll();
+    qDebug() << "all reply headers:" << headers;
+    qDebug() << "received data:" << data;
+    bool success = error == QNetworkReply::NoError;
+    Errors operationError = GeneralNoError;
+    if (success) {
+        JSONObject *parsedObject = new JSONObject(this);
+        parsedObject->parseJSONData(data);
+        typedef QPair<QString, QString> JsonValue;
+        foreach(const JsonValue &value, parsedObject->values()) {
+            if (value.first.compare(CRATED_AT_FIELD) == 0) {
+                qDebug() << "user created at:" << value.second;
+            } else if (value.first.compare(OBJECT_ID_FIELD) == 0) {
+                qDebug() << "objectId:" << value.second;
+            } else {
+                qCritical() << "un-expected value:" << value;
+            }
+        }
+        parsedObject->deleteLater();
+    } else {
+        operationError = GeneralError;
+        qWarning() << "request failed with error:" << error;
+    }
+    emit submitNewScoreCompleted(success, operationError);
+}
+
+void LeaderboardHelper::handleSubmitNewScoreError(QNetworkReply::NetworkError error)
+{
+    Q_UNUSED(error);
+}

@@ -15,7 +15,8 @@ class LeaderboardHelper: public QObject
         Idle = 0,
         SignUpInProgress,
         SignInInProgress,
-        CheckUserExists
+        CheckUserExists,
+        SubmitNewScoreInProgress
     };
 public:
 
@@ -54,7 +55,7 @@ signals:
     void signUpCompleted(bool success, int error);
     void signInCompleted(bool success, int error);
     void userExistsCompleted(bool success, int result);
-    void submitNewScore(bool success, int result);
+    void submitNewScoreCompleted(bool success, int result);
 
 private slots:
     void onReplyFinished();
@@ -69,6 +70,8 @@ private:
     void handleSignInResultError(QNetworkReply::NetworkError error);
     void handleUserExistsResult();
     void handleUserExistsResultError(QNetworkReply::NetworkError error);
+    void handleSubmitNewScore();
+    void handleSubmitNewScoreError(QNetworkReply::NetworkError error);
 
 private:
     QNetworkAccessManager *mNetworkManager;

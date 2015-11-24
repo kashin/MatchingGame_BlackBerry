@@ -83,6 +83,10 @@ Check your credenials and internet connectivity and try again.</source>
         <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Player Name</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>game</name>

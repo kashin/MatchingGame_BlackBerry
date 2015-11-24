@@ -3,6 +3,8 @@
 namespace {
 static const char *DIFFICULTY_KEY = "difficulty";
 static const char *SESSION_TOKEN = "sessionToken";
+static const char *PLAYERNAME_KEY = "playerName";
+static QLatin1String DEFAULT_PLAYERNAME("DefaultPlayer");
 }
 
 Settings::Settings(QObject * parent)
@@ -50,4 +52,22 @@ void Settings::setSessionToken(const QString& sessionToken)
 QString Settings::sessionToken() const
 {
     return value(SESSION_TOKEN, QString()).toString();
+}
+
+void Settings::setPlayerName(const QString& newPlayerName)
+{
+    if (playerName() != newPlayerName) {
+        setValue(PLAYERNAME_KEY, newPlayerName);
+        emit playerNameChanged(newPlayerName);
+    }
+}
+
+QString Settings::playerName() const
+{
+    return value(PLAYERNAME_KEY, QString()).toString();
+}
+
+QString Settings::defaulPlayerName() const
+{
+    return DEFAULT_PLAYERNAME;
 }

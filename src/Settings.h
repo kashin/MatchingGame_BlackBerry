@@ -21,6 +21,11 @@ public:
      */
     Q_PROPERTY(int difficulty READ difficulty WRITE setDifficulty NOTIFY difficultyChanged )
 
+    /**
+     * Holds Player name
+     */
+    Q_PROPERTY(QString playerName READ playerName WRITE setPlayerName NOTIFY playerNameChanged )
+
 public:
     Settings(QObject * parent = 0);
     virtual ~Settings();
@@ -36,8 +41,13 @@ public slots:
     void setDifficulty(Difficulty newDifficulty);
     int difficulty();
 
+    void setPlayerName(const QString &newPlayerName);
+    QString playerName() const;
+    QString defaulPlayerName() const;
+
 signals:
     void difficultyChanged(int newDifficulty);
+    void playerNameChanged(const QString &newPlayerName);
 };
 
 #endif // MATCHINGGAME_SETTINGS_H_

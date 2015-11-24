@@ -59,8 +59,25 @@ Sheet {
                     }
                 }
             } // Difficulty DropDown
+            Label {
+                id: playerNameLabel
+                text: qsTr("Player Name")
+            }
+            TextField {
+                id: playerNameTextField
+                hintText: qsTr("Player Name")
+                onTextChanging: {
+                    appSettings.playerName = text;
+                }
+                onCreationCompleted: {
+                    if (appSettings.playerName.length > 0) {
+                        text = appSettings.playerName;
+                    }
+                }
+            }
             Button {
                 id: credentialsButton
+                visible: false
                 property string signInButtonText: qsTr("SignUp/SignIn")
                 property string logoutButtonText: qsTr("Logout")
                 text: signInButtonText
@@ -95,7 +112,6 @@ Sheet {
         }
     ]
     onCreationCompleted: {
-        leaderboardHelper.initialize();
         switch(appSettings.difficulty) {
             case Settings.EasyDifficulty:
                 difficultyDropDown.selectedIndex = 0;

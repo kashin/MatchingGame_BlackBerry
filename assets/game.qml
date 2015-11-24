@@ -187,7 +187,7 @@ Page {
         },
         LeaderboardHelper {
             id: leaderboardHelper
-            onSubmitNewScore: {
+            onSubmitNewScoreCompleted: {
                 if (success) {
                     successfullSubmission.progress = 100;
                 } else {
