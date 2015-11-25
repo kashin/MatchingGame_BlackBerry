@@ -1,5 +1,5 @@
 1
-13
+14
 CredentialsDialog.qml
 game.qml
 html/face_matching.html
@@ -10,6 +10,7 @@ images/gameIcons/smile.png
 images/gameIcons/star.png
 images/gameIcons/sun.png
 images/game_background.png
+LeaderboardPage.qml
 main.qml
 parseKey/parse_key.data
 SettingsSheet.qml

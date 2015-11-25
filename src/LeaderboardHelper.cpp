@@ -25,6 +25,8 @@ namespace {
     static const QLatin1String LOGIN_PATH("/1/login");
     static const QLatin1String GAME_SCORE_PATH("/1/classes/GameScore");
     static const QLatin1String CONTENT_TYPE_JSON_HEADER_VALUE("application/json");
+    static const QLatin1String ORDER_QUERY_VALUE("order");
+    static const QLatin1String LIMIT_QUERY_VALUE("limit");
 
     // JSON data
     static const QLatin1String USERSNAME_FIELD("username");
@@ -45,6 +47,7 @@ LeaderboardHelper::LeaderboardHelper(QObject *parent)
       mReply(NULL),
       mState(Idle)
 {
+    qRegisterMetaType<HighScore>("HighScore");
     initialize();
 }
 
@@ -163,6 +166,9 @@ void LeaderboardHelper::onReplyFinished()
         case SubmitNewScoreInProgress:
             handleSubmitNewScore();
             break;
+        case QueryHighScoresInProgress:
+            handleQueryHighScore();
+            break;
         default:
             qCritical() << "unhandled leaderboard state" << mState;
             break;
@@ -192,6 +198,9 @@ void LeaderboardHelper::onReplyError(QNetworkReply::NetworkError networkError)
             break;
         case SubmitNewScoreInProgress:
             handleSubmitNewScoreError(networkError);
+            break;
+        case QueryHighScoresInProgress:
+            handleQueryHighScoreError(networkError);
             break;
         default:
             qCritical() << "unhandled leaderboard state" << mState;
@@ -384,6 +393,71 @@ void LeaderboardHelper::handleSubmitNewScore()
 }
 
 void LeaderboardHelper::handleSubmitNewScoreError(QNetworkReply::NetworkError error)
+{
+    Q_UNUSED(error);
+}
+
+void LeaderboardHelper::queryHighScores(int limit)
+{
+    qDebug() << "sending query high scores";
+    QNetworkRequest request;
+    configureStandardRequest(request, GAME_SCORE_PATH);
+    mState = QueryHighScoresInProgress;
+    QUrl url = request.url();
+    url.addQueryItem(ORDER_QUERY_VALUE.latin1(), QString('-').append(SCORE_FIELD).append(',').append(CRATED_AT_FIELD));
+    url.addQueryItem(LIMIT_QUERY_VALUE.latin1(), QUrl::toPercentEncoding(QString::number(limit)));
+    request.setUrl(url);
+    mReply = mNetworkManager->get(request);
+    connectReplySignals();
+}
+
+void LeaderboardHelper::handleQueryHighScore()
+{
+    QNetworkReply::NetworkError error = mReply->error();
+    const QList<QPair<QByteArray, QByteArray> > &headers = mReply->rawHeaderPairs();
+    const QByteArray &data = mReply->readAll();
+    qDebug() << "all reply headers:" << headers;
+    qDebug() << "received data:" << data;
+    bool success = error == QNetworkReply::NoError;
+    int operationResult = GeneralError;
+    QList<HighScore> highScores;
+    if (success) {
+        JSONObject *parsedObject = new JSONObject(this);
+        parsedObject->parseJSONData(data);
+        typedef QPair<QString, QList<JSONObject*> > JsonArray;
+        typedef QPair<QString, QString> JsonValue;
+        operationResult = GeneralNoError;
+        foreach(const JsonArray &array, parsedObject->childArrayObjects()) {
+            if (array.first.compare(RESULTS_FIELD) == 0) {
+                foreach(JSONObject *object, array.second) {
+                    HighScore score;
+                    foreach(const JsonValue &value, object->values()) {
+                        if (value.first.compare(PLAYER_NAME_FIELD) == 0) {
+                            score.playerName = value.second;
+                        } else if (value.first.compare(LEVEL_FIELD) == 0) {
+                            score.level = value.second.toUInt();
+                        } else if (value.first.compare(SCORE_FIELD) == 0) {
+                            score.score = value.second.toUInt();
+                        } else if (value.first.compare(DIFFICULTY_FIELD) == 0) {
+                            score.dificulty = value.second.toUInt();
+                        }
+                    }
+                    qDebug() << "score:" << score.score << "; playerName:" << score.playerName;
+                    highScores << score;
+                }
+                break;
+            } else {
+                qWarning() << "unexpected value:" << array.first;
+            }
+        }
+        parsedObject->deleteLater();
+    } else {
+        qWarning() << "request failed with error:" << error;
+    }
+    emit queryHighScoresCompleted(success, operationResult, highScores);
+}
+
+void LeaderboardHelper::handleQueryHighScoreError(QNetworkReply::NetworkError error)
 {
     Q_UNUSED(error);
 }

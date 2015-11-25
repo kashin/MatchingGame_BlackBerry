@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QtNetwork/qnetworkreply.h>
 
+#include "HighScore.h"
+
 class QNetworkAccessManager;
 class QNetworkRequest;
 
@@ -16,7 +18,8 @@ class LeaderboardHelper: public QObject
         SignUpInProgress,
         SignInInProgress,
         CheckUserExists,
-        SubmitNewScoreInProgress
+        SubmitNewScoreInProgress,
+        QueryHighScoresInProgress
     };
 public:
 
@@ -49,6 +52,7 @@ public slots:
     void signOut();
     void checkUserExists(const QString &login);
     void submitNewScore(int newScore, int difficulty, int level);
+    void queryHighScores(int limit);
 
 signals:
     void signedInChanged(bool);
@@ -56,6 +60,7 @@ signals:
     void signInCompleted(bool success, int error);
     void userExistsCompleted(bool success, int result);
     void submitNewScoreCompleted(bool success, int result);
+    void queryHighScoresCompleted(bool success, int error, QList<HighScore> highScores);
 
 private slots:
     void onReplyFinished();
@@ -72,6 +77,8 @@ private:
     void handleUserExistsResultError(QNetworkReply::NetworkError error);
     void handleSubmitNewScore();
     void handleSubmitNewScoreError(QNetworkReply::NetworkError error);
+    void handleQueryHighScore();
+    void handleQueryHighScoreError(QNetworkReply::NetworkError error);
 
 private:
     QNetworkAccessManager *mNetworkManager;

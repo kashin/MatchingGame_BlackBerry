@@ -45,33 +45,61 @@ NavigationPane {
                     horizontalAlignment: HorizontalAlignment.Center
                     verticalAlignment: VerticalAlignment.Bottom
                     appearance: ControlAppearance.Primary
+                    onClicked: {
+                        startLeaderBoardAction.triggered();
+                    }
                 }
                 horizontalAlignment: HorizontalAlignment.Center
                 verticalAlignment: VerticalAlignment.Center
             }
         }
-        actions: ActionItem {
-            id: startGameAction
-            title: qsTr("Start Game")
-            ActionBar.placement: ActionBarPlacement.OnBar
-            shortcuts: [
-                Shortcut {
-                    key: "s"
-                    onTriggered: {
-                        startGameAction.triggered();
+        actions: [
+            ActionItem {
+                id: startGameAction
+                title: qsTr("Start Game")
+                ActionBar.placement: ActionBarPlacement.OnBar
+                shortcuts: [
+                    Shortcut {
+                        key: "s"
+                        onTriggered: {
+                            startGameAction.triggered();
+                        }
                     }
+                ]
+                onTriggered: {
+                    var gamePage = gamePageDefinition.createObject();
+                    navigationPane.push(gamePage);
                 }
-            ]
-            onTriggered: {
-                var gamePage = gamePageDefinition.createObject();
-                navigationPane.push(gamePage);
+                attachedObjects: [
+                    ComponentDefinition {
+                        id: gamePageDefinition
+                        source: "game.qml"
+                    }
+                ]
+            },
+            ActionItem {
+                id: startLeaderBoardAction
+                title: qsTr("Start Game")
+                ActionBar.placement: ActionBarPlacement.OnBar
+                shortcuts: [
+                    Shortcut {
+                        key: "l"
+                        onTriggered: {
+                            startLeaderBoardAction.triggered();
+                        }
+                    }
+                ]
+                onTriggered: {
+                    var leaderBoardPage = leaderBoardPageDefinition.createObject();
+                    navigationPane.push(leaderBoardPage);
+                }
+                attachedObjects: [
+                    ComponentDefinition {
+                        id: leaderBoardPageDefinition
+                        source: "LeaderboardPage.qml"
+                    }
+                ]
             }
-            attachedObjects: [
-                ComponentDefinition {
-                    id: gamePageDefinition
-                    source: "game.qml"
-                }
-            ]
-        }
+        ]
     }
 }

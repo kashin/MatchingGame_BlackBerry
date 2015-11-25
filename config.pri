@@ -37,6 +37,7 @@ simulator {
 config_pri_assets {
     OTHER_FILES += \
         $$quote($$BASEDIR/assets/CredentialsDialog.qml) \
+        $$quote($$BASEDIR/assets/LeaderboardPage.qml) \
         $$quote($$BASEDIR/assets/SettingsSheet.qml) \
         $$quote($$BASEDIR/assets/game.qml) \
         $$quote($$BASEDIR/assets/html/face_matching.html) \
@@ -53,6 +54,7 @@ config_pri_assets {
 config_pri_source_group1 {
     SOURCES += \
         $$quote($$BASEDIR/src/JSONObject.cpp) \
+        $$quote($$BASEDIR/src/LeaderBoardModel.cpp) \
         $$quote($$BASEDIR/src/LeaderboardHelper.cpp) \
         $$quote($$BASEDIR/src/Settings.cpp) \
         $$quote($$BASEDIR/src/SimpleJSONCreator.cpp) \
@@ -60,7 +62,9 @@ config_pri_source_group1 {
         $$quote($$BASEDIR/src/main.cpp)
 
     HEADERS += \
+        $$quote($$BASEDIR/src/HighScore.h) \
         $$quote($$BASEDIR/src/JSONObject.h) \
+        $$quote($$BASEDIR/src/LeaderBoardModel.h) \
         $$quote($$BASEDIR/src/LeaderboardHelper.h) \
         $$quote($$BASEDIR/src/Settings.h) \
         $$quote($$BASEDIR/src/SimpleJSONCreator.h) \

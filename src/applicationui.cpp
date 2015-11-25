@@ -17,6 +17,7 @@
 #include "applicationui.hpp"
 #include "Settings.h"
 #include "LeaderboardHelper.h"
+#include "LeaderBoardModel.h"
 
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
@@ -45,6 +46,7 @@ ApplicationUI::ApplicationUI() :
     onSystemLanguageChanged();
     qmlRegisterType<Settings>("don.matching", 1, 0, "Settings");
     qmlRegisterType<LeaderboardHelper>("don.matching", 1, 0, "LeaderboardHelper");
+    qmlRegisterType<LeaderBoardModel>("don.matching", 1, 0, "LeaderBoardModel");
     qmlRegisterType<QTimer>("don.matching", 1, 0, "Timer");
     // Create scene document from main.qml asset, the parent is set
     // to ensure the document gets destroyed properly at shut down.
