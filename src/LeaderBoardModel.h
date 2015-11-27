@@ -22,6 +22,7 @@ public:
     Q_INVOKABLE int childCount(const QVariantList &indexPath);
     Q_INVOKABLE QVariant data(const QVariantList &indexPath);
     Q_INVOKABLE bool hasChildren (const QVariantList &indexPath);
+    Q_INVOKABLE QString itemType(const QVariantList& indexPath);
 
 public slots:
     void init();
@@ -37,7 +38,7 @@ signals:
 private:
 
 private:
-    int mLimit;
+    quint32 mLimit;
     LeaderboardHelper *mHelper;
     QList<HighScore> mHighScores;
 };

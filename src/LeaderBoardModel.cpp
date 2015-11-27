@@ -24,22 +24,37 @@ LeaderBoardModel::~LeaderBoardModel()
 int LeaderBoardModel::childCount(const QVariantList& indexPath)
 {
     Q_UNUSED(indexPath);
-    // TODO: implement
-    return 0;
+    return mHighScores.count();
 }
 
 QVariant LeaderBoardModel::data(const QVariantList& indexPath)
 {
-    Q_UNUSED(indexPath);
-    // TODO: implement
-    return QVariant();
+    QVariantMap result;
+    if (!indexPath.isEmpty()) {
+        const QVariant &scoreIndex = indexPath.first();
+        if (scoreIndex.isValid() && scoreIndex.canConvert<int>()) {
+            int index = scoreIndex.toInt();
+            if (index >= 0 && index < mHighScores.size()) {
+                result["playerName"] = mHighScores.at(index).playerName;
+                result["score"] = mHighScores.at(index).score;
+                result["difficulty"] = mHighScores.at(index).difficulty;
+                result["level"] = mHighScores.at(index).level;
+            }
+        }
+    }
+    return result;
 }
 
 bool LeaderBoardModel::hasChildren(const QVariantList& indexPath)
 {
     Q_UNUSED(indexPath);
-    // TODO: implement
     return false;
+}
+
+QString LeaderBoardModel::itemType(const QVariantList& indexPath)
+{
+    Q_UNUSED(indexPath);
+    return "item";
 }
 
 void LeaderBoardModel::init()
@@ -52,6 +67,7 @@ void LeaderBoardModel::onHighScoreCompleted(bool success, int error, QList<HighS
     qDebug() << "success:" << success << "error" << error;
     qDebug() << highScores.count();
     mHighScores = highScores;
+    emit itemsChanged();
 }
 
 quint32 LeaderBoardModel::limit() const

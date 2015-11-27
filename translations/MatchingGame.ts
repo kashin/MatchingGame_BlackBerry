@@ -50,6 +50,21 @@ Check your credenials and internet connectivity and try again.</source>
     </message>
 </context>
 <context>
+    <name>LeaderboardPage</name>
+    <message>
+        <source>High Scores</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Player Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Score</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SettingsSheet</name>
     <message>
         <source>Close</source>

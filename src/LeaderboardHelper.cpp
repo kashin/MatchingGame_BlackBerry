@@ -439,7 +439,7 @@ void LeaderboardHelper::handleQueryHighScore()
                         } else if (value.first.compare(SCORE_FIELD) == 0) {
                             score.score = value.second.toUInt();
                         } else if (value.first.compare(DIFFICULTY_FIELD) == 0) {
-                            score.dificulty = value.second.toUInt();
+                            score.difficulty = value.second.toUInt();
                         }
                     }
                     qDebug() << "score:" << score.score << "; playerName:" << score.playerName;

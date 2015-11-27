@@ -7,7 +7,7 @@ struct HighScore
 {
     QString playerName;
     quint32 score;
-    quint32 dificulty;
+    quint32 difficulty;
     quint32 level;
 };
 

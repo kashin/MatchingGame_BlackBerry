@@ -79,7 +79,7 @@ NavigationPane {
             },
             ActionItem {
                 id: startLeaderBoardAction
-                title: qsTr("Start Game")
+                title: qsTr("Leaderboard")
                 ActionBar.placement: ActionBarPlacement.OnBar
                 shortcuts: [
                     Shortcut {
