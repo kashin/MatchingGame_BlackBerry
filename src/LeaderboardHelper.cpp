@@ -24,6 +24,8 @@ namespace {
     static const QLatin1String USERS_PATH("/1/users");
     static const QLatin1String LOGIN_PATH("/1/login");
     static const QLatin1String GAME_SCORE_PATH("/1/classes/GameScore");
+    static const QLatin1String APP_OPENED_PATH("/1/events/AppOpened");
+    static const QLatin1String SETTINGS_OPENED_PATH("/1/events/SettingsOpened");
     static const QLatin1String CONTENT_TYPE_JSON_HEADER_VALUE("application/json");
     static const QLatin1String ORDER_QUERY_VALUE("order");
     static const QLatin1String LIMIT_QUERY_VALUE("limit");
@@ -39,6 +41,8 @@ namespace {
     static const QLatin1String DIFFICULTY_FIELD("difficulty");
     static const QLatin1String LEVEL_FIELD("level");
     static const QLatin1String SCORE_FIELD("score");
+    static const QLatin1String SETTINGS_OPENED_FIELD("settingsVisited");
+    static const QLatin1String DIMENSIONS_FIELD("dimensions");
 }
 
 LeaderboardHelper::LeaderboardHelper(QObject *parent)
@@ -169,6 +173,9 @@ void LeaderboardHelper::onReplyFinished()
         case QueryHighScoresInProgress:
             handleQueryHighScore();
             break;
+        case SendingAnalyticsInProgress:
+            // we are just ignoring anything related to analytics events
+            break;
         default:
             qCritical() << "unhandled leaderboard state" << mState;
             break;
@@ -201,6 +208,9 @@ void LeaderboardHelper::onReplyError(QNetworkReply::NetworkError networkError)
             break;
         case QueryHighScoresInProgress:
             handleQueryHighScoreError(networkError);
+            break;
+        case SendingAnalyticsInProgress:
+            // we are just ignoring anything related to analytics events
             break;
         default:
             qCritical() << "unhandled leaderboard state" << mState;
@@ -460,4 +470,31 @@ void LeaderboardHelper::handleQueryHighScore()
 void LeaderboardHelper::handleQueryHighScoreError(QNetworkReply::NetworkError error)
 {
     Q_UNUSED(error);
+}
+
+void LeaderboardHelper::sendAppOpenedEvent()
+{
+    qDebug() << "sending AppOpened Event";
+    QNetworkRequest request;
+    configureStandardRequest(request, APP_OPENED_PATH);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, CONTENT_TYPE_JSON_HEADER_VALUE);
+    mState = SendingAnalyticsInProgress;
+    mReply = mNetworkManager->post(request, "{}");
+    connectReplySignals();
+}
+
+void LeaderboardHelper::sendSettingsOpenedEvent()
+{
+    qDebug() << "sending settings visited Event";
+    QNetworkRequest request;
+    configureStandardRequest(request, SETTINGS_OPENED_PATH);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, CONTENT_TYPE_JSON_HEADER_VALUE);
+    mState = SendingAnalyticsInProgress;
+    SimpleJSONCreator *jsonCreator = new SimpleJSONCreator(this);
+    JSONObject *object = new JSONObject();
+    object->addValue(SETTINGS_OPENED_FIELD, "1");
+    jsonCreator->addObject(DIMENSIONS_FIELD, object);
+    mReply = mNetworkManager->post(request, jsonCreator->getJsonData());
+    connectReplySignals();
+    jsonCreator->deleteLater();
 }

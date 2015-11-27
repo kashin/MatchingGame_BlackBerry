@@ -112,6 +112,7 @@ Sheet {
         }
     ]
     onCreationCompleted: {
+        leaderboardHelper.sendSettingsOpenedEvent();
         switch(appSettings.difficulty) {
             case Settings.EasyDifficulty:
                 difficultyDropDown.selectedIndex = 0;

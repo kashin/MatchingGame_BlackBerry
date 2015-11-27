@@ -1,4 +1,5 @@
 import bb.cascades 1.4
+import don.matching 1.0
 
 NavigationPane {
     id: navigationPane
@@ -101,5 +102,11 @@ NavigationPane {
                 ]
             }
         ]
+    }
+    attachedObjects: LeaderboardHelper {
+        id: leaderboardHelper
+    }
+    onCreationCompleted: {
+        leaderboardHelper.sendAppOpenedEvent();
     }
 }

@@ -19,7 +19,8 @@ class LeaderboardHelper: public QObject
         SignInInProgress,
         CheckUserExists,
         SubmitNewScoreInProgress,
-        QueryHighScoresInProgress
+        QueryHighScoresInProgress,
+        SendingAnalyticsInProgress
     };
 public:
 
@@ -53,6 +54,8 @@ public slots:
     void checkUserExists(const QString &login);
     void submitNewScore(int newScore, int difficulty, int level);
     void queryHighScores(int limit);
+    void sendAppOpenedEvent();
+    void sendSettingsOpenedEvent();
 
 signals:
     void signedInChanged(bool);
