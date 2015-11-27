@@ -39,6 +39,7 @@ QVariant LeaderBoardModel::data(const QVariantList& indexPath)
                 result["score"] = mHighScores.at(index).score;
                 result["difficulty"] = mHighScores.at(index).difficulty;
                 result["level"] = mHighScores.at(index).level;
+                result["place"] = index + 1;
             }
         }
     }

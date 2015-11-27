@@ -63,6 +63,10 @@ Check your credenials and internet connectivity and try again.</source>
         <source>Score</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>#</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsSheet</name>

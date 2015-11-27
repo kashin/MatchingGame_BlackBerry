@@ -21,13 +21,25 @@ Page {
                         orientation: LayoutOrientation.LeftToRight
                     }
                     Label {
-                        text: qsTr("Player Name")
+                        text: qsTr("#")
                         textStyle {
                             base: SystemDefaults.TextStyles.TitleText
                             textAlign: TextAlign.Center
                         }
                         layoutProperties: StackLayoutProperties {
                             spaceQuota: 1
+                        }
+                        verticalAlignment: VerticalAlignment.Center
+                        horizontalAlignment: HorizontalAlignment.Left
+                    }
+                    Label {
+                        text: qsTr("Player Name")
+                        textStyle {
+                            base: SystemDefaults.TextStyles.TitleText
+                            textAlign: TextAlign.Center
+                        }
+                        layoutProperties: StackLayoutProperties {
+                            spaceQuota: 3
                         }
                         verticalAlignment: VerticalAlignment.Center
                         horizontalAlignment: HorizontalAlignment.Center
@@ -39,7 +51,7 @@ Page {
                             textAlign: TextAlign.Center
                         }
                         layoutProperties: StackLayoutProperties {
-                            spaceQuota: 1
+                            spaceQuota: 3
                         }
                         verticalAlignment: VerticalAlignment.Center
                         horizontalAlignment: HorizontalAlignment.Center
@@ -63,13 +75,25 @@ Page {
                             orientation: LayoutOrientation.LeftToRight
                         }
                         Label {
-                            text: ListItemData.playerName
+                            text: ListItemData.place
                             textStyle {
                                 base: SystemDefaults.TextStyles.BodyText
                                 textAlign: TextAlign.Center
                             }
                             layoutProperties: StackLayoutProperties {
                                 spaceQuota: 1
+                            }
+                            verticalAlignment: VerticalAlignment.Center
+                            horizontalAlignment: HorizontalAlignment.Left
+                        }
+                        Label {
+                            text: ListItemData.playerName
+                            textStyle {
+                                base: SystemDefaults.TextStyles.BodyText
+                                textAlign: TextAlign.Center
+                            }
+                            layoutProperties: StackLayoutProperties {
+                                spaceQuota: 3
                             }
                             verticalAlignment: VerticalAlignment.Center
                             horizontalAlignment: HorizontalAlignment.Center
@@ -81,7 +105,7 @@ Page {
                                 textAlign: TextAlign.Center
                             }
                             layoutProperties: StackLayoutProperties {
-                                spaceQuota: 1
+                                spaceQuota: 3
                             }
                             verticalAlignment: VerticalAlignment.Center
                             horizontalAlignment: HorizontalAlignment.Center
