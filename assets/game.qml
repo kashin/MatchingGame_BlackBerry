@@ -27,7 +27,7 @@ Page {
             Label {
                 id: currentImgLabel
                 property string baseTextValue: qsTr("Shown images: ")
-                text: baseTextValue + "5"
+                text: baseTextValue + "0"
                 margin.topOffset: 10
                 margin.bottomOffset: 10
                 margin.leftOffset: 10
@@ -39,7 +39,7 @@ Page {
             Label {
                 id: currentLevelLabel
                 property string baseTextValue: qsTr("Current Level: ")
-                text: baseTextValue + "1"
+                text: baseTextValue
                 margin.topOffset: 10
                 margin.bottomOffset: 10
                 margin.leftOffset: 10
@@ -62,6 +62,8 @@ Page {
             onClicked: {
                 mainScreenWebView.postMessage("startGame");
                 descriptionLabel.visible = false;
+                currentLevelLabel.text = currentLevelLabel.baseTextValue + '1';
+                currentImgLabel.text = currentImgLabel.baseTextValue + appSettings.difficulty;
             }
         }
         Label {
@@ -86,12 +88,12 @@ Page {
                     if (message.data.indexOf("imgCounter") >= 0) {
                         var data = message.data.substring(message.data.indexOf(":") + 1);
                         currentImgLabel.text = currentImgLabel.baseTextValue + data;
-                        scoreValue = data;
+                        scoreValue = data - appSettings.difficulty;
                         roundTimer.restartRoundTimer();
                     } else if (message.data.indexOf("currentLevel") >= 0) {
                         var data = message.data.substring(message.data.indexOf(":") + 1);
                         currentLevelLabel.text = currentLevelLabel.baseTextValue + data;
-                        levelValue = data;
+                        levelValue = data - 1;
                     } else if (message.data.indexOf("gameOver") >= 0) {
                         var data = message.data.substring(message.data.indexOf(":") + 1);
                         console.log("game over: " + data);
@@ -179,8 +181,8 @@ Page {
                     SystemUiResult.CancelButtonSelection) {
                     console.log('do not submit the result');
                 } else {
-                    leaderboardHelper.submitNewScore(mainScreenWebView.scoreValue, appSettings.difficulty,
-                        mainScreenWebView.levelValue);
+                    leaderboardHelper.submitNewScore(mainScreenWebView.scoreValue,
+                        appSettings.difficulty, mainScreenWebView.levelValue);
                     successfullSubmission.show();
                 }
             }

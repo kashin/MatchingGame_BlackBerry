@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <script>
+const maxLevelLimit = 0; // Set to non-zero value to 'block' max level
 const initialLevel = 1;
 var initialFacesNumber = 5;
 var facesNumber = initialFacesNumber;
@@ -65,7 +66,14 @@ function regenerateSmiles() {
     levelCounter++;
     navigator.cascades.postMessage('imgCounter:' + facesNumber);
     navigator.cascades.postMessage('currentLevel:' + levelCounter);
-    regenerateSmiles();
+    if (maxLevelLimit !== 0 && maxLevelLimit < levelCounter) {
+      // finishing the game if max level is set to non-zero value
+      navigator.cascades.postMessage('gameOver:' + levelCounter);
+      leftSide.onclick = null;
+      leftSide.lastChild.onclick = null;
+    } else {
+      regenerateSmiles();
+    }
   };
   leftSide.onclick = function gameOver() {
     navigator.cascades.postMessage('gameOver:' + levelCounter);
