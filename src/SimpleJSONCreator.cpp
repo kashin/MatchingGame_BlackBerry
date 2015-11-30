@@ -24,6 +24,11 @@ void SimpleJSONCreator::addObject(const QString& name, JSONObject* childObject)
     mMainObject->addObject(name, childObject);
 }
 
+void SimpleJSONCreator::addIntValue(const QString& name, int value)
+{
+    mMainObject->addIntValue(name, value);
+}
+
 QByteArray SimpleJSONCreator::getJsonData() const
 {
     const QString &result = mMainObject->jsonData();

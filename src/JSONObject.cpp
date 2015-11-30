@@ -16,6 +16,11 @@ void JSONObject::addValue(const QString& name, const QString& value)
     mValues.append(qMakePair(name, value));
 }
 
+void JSONObject::addIntValue(const QString& name, int value)
+{
+    mIntValues.append(qMakePair(name, value));
+}
+
 void JSONObject::addObject(const QString& name, JSONObject* childObject)
 {
     childObject->setParent(this);
@@ -43,6 +48,16 @@ QString JSONObject::jsonData() const
         result.append('"' + value.first + "\":\"" + value.second + '"');
         first = false;
     }
+    // second append int values
+    typedef QPair<QString, int> IntValuePair;
+    foreach (const IntValuePair &value, mIntValues) {
+        if (!first) {
+            result.append(',');
+        }
+        result.append('"' + value.first + "\":" + QString::number(value.second));
+        first = false;
+    }
+
     // now let's append all child objects
     typedef QPair<QString, JSONObject*> ChildObjectPair;
     foreach(const ChildObjectPair &object, mChildObjects) {
@@ -129,7 +144,14 @@ void JSONObject::parseJSONData(const QByteArray& data)
             } else {
                 indexOfEnd = restDataStr.indexOf(',');
                 currentValueStr = restDataStr.mid(0, indexOfEnd);
-                mValues.append(qMakePair(valueName, currentValueStr));
+                bool converted = false;
+                const int intValue = currentValueStr.toInt(&converted);
+                if (converted) {
+                    qDebug() << "parsed int value:" << intValue;
+                    mIntValues.append(qMakePair(valueName, intValue));
+                } else {
+                    mValues.append(qMakePair(valueName, currentValueStr));
+                }
                 restDataStr.remove(0, indexOfEnd);
             }
         }

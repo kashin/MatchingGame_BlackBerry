@@ -16,6 +16,7 @@ public:
 
     void addObject(const QString &name, JSONObject *childObject);
     void addValue(const QString &name, const QString &value);
+    void addIntValue(const QString &name, int value);
     QByteArray getJsonData() const;
 
 private:

@@ -14,6 +14,8 @@ public:
 
     void addValue(const QString &name, const QString &value);
 
+    void addIntValue(const QString &name, int value);
+
     /**
      * @Note This object takes ownership of the childObject after this call
      */
@@ -43,7 +45,13 @@ public:
         return mChildArrayObjects;
     }
 
+    const QList<QPair<QString, int> >& intValues() const
+    {
+        return mIntValues;
+    }
+
 private:
+    QList<QPair<QString, int> > mIntValues;
     QList<QPair<QString, QString> > mValues;
     QList<QPair<QString, JSONObject*> > mChildObjects;
     QList<QPair<QString, QList<JSONObject*> > > mChildArrayObjects;

@@ -104,7 +104,7 @@ void LeaderboardHelper::submitNewScore(int newScore, int difficulty, int level)
     Settings appSettings;
     const QString &playerName = appSettings.playerName();
     jsonCreator->addValue(PLAYER_NAME_FIELD, playerName.isEmpty() ? appSettings.defaulPlayerName() : playerName);
-    jsonCreator->addValue(SCORE_FIELD, QString::number(newScore));
+    jsonCreator->addIntValue(SCORE_FIELD, newScore);
     jsonCreator->addValue(DIFFICULTY_FIELD, QString::number(difficulty));
     jsonCreator->addValue(LEVEL_FIELD, QString::number(level));
     mState = SubmitNewScoreInProgress;
@@ -131,13 +131,6 @@ void LeaderboardHelper::configureStandardRequest(QNetworkRequest &request, const
     qDebug() << "settings headers with keys:" << mAppId << mAPIKey;
     request.setRawHeader(APP_ID_HEADER, mAppId.toUtf8());
     request.setRawHeader(CLIENT_API_HEADER, mAPIKey.toUtf8());
-//    request.setRawHeader(REVOCABLE_SESSION_HEADER, "1");
-//    Settings appSettings;
-//    const QString &sessionToken = appSettings.sessionToken();
-//    if (!sessionToken.isEmpty()) {
-//        qDebug() << "adding session_token header:" << sessionToken;
-//        request.setRawHeader(SESSION_TOKEN_HEADER, sessionToken.toUtf8());
-//    }
 }
 
 void LeaderboardHelper::connectReplySignals()
@@ -436,6 +429,7 @@ void LeaderboardHelper::handleQueryHighScore()
         parsedObject->parseJSONData(data);
         typedef QPair<QString, QList<JSONObject*> > JsonArray;
         typedef QPair<QString, QString> JsonValue;
+        typedef QPair<QString, int> JsonIntValue;
         operationResult = GeneralNoError;
         foreach(const JsonArray &array, parsedObject->childArrayObjects()) {
             if (array.first.compare(RESULTS_FIELD) == 0) {
@@ -446,10 +440,14 @@ void LeaderboardHelper::handleQueryHighScore()
                             score.playerName = value.second;
                         } else if (value.first.compare(LEVEL_FIELD) == 0) {
                             score.level = value.second.toUInt();
-                        } else if (value.first.compare(SCORE_FIELD) == 0) {
-                            score.score = value.second.toUInt();
                         } else if (value.first.compare(DIFFICULTY_FIELD) == 0) {
                             score.difficulty = value.second.toUInt();
+                        }
+                    }
+                    foreach (const JsonIntValue &value, object->intValues()) {
+                        if (value.first.compare(SCORE_FIELD) == 0) {
+                            score.score = value.second;
+                            break;
                         }
                     }
                     qDebug() << "score:" << score.score << "; playerName:" << score.playerName;

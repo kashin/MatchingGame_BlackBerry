@@ -60,7 +60,7 @@ Page {
             horizontalAlignment: HorizontalAlignment.Center
             appearance: ControlAppearance.Primary
             onClicked: {
-                mainScreenWebView.postMessage("startGame");
+                mainScreenWebView.startNewGame();
                 descriptionLabel.visible = false;
                 currentLevelLabel.text = currentLevelLabel.baseTextValue + '1';
                 currentImgLabel.text = currentImgLabel.baseTextValue + appSettings.difficulty;
@@ -83,6 +83,13 @@ Page {
                 property int scoreValue: 0
                 property int levelValue: 1
                 url: "local:///assets/html/face_matching.html"
+
+                function startNewGame() {
+                    mainScreenWebView.scoreValue = 0;
+                    mainScreenWebView.levelValue = 0;
+                    mainScreenWebView.postMessage("startGame");
+                }
+
                 onMessageReceived: {
                     console.log("received message: " + message.data);
                     if (message.data.indexOf("imgCounter") >= 0) {
