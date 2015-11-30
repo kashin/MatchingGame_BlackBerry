@@ -110,7 +110,7 @@ Check your credenials and internet connectivity and try again.</source>
 <context>
     <name>game</name>
     <message>
-        <source>Back to Main Menu</source>
+        <source>Find the extra image on the left side of the screen. You have 60 seconds to do it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -122,11 +122,11 @@ Check your credenials and internet connectivity and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find the extra image on the left side of the screen. You have 60 seconds to do it</source>
+        <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start</source>
+        <source>Back to Main Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -135,6 +135,10 @@ Check your credenials and internet connectivity and try again.</source>
     </message>
     <message>
         <source>Game Over</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please, enter your player name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

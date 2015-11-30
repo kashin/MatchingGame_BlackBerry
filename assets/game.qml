@@ -187,6 +187,8 @@ Page {
                 if (gameOverDialog.result ===
                     SystemUiResult.CancelButtonSelection) {
                     console.log('do not submit the result');
+                } else if (appSettings.playerName.length == 0) {
+                    enterPlayerNamePromt.show();
                 } else {
                     leaderboardHelper.submitNewScore(mainScreenWebView.scoreValue,
                         appSettings.difficulty, mainScreenWebView.levelValue);
@@ -201,6 +203,20 @@ Page {
                     successfullSubmission.progress = 100;
                 } else {
                     successfullSubmission.cancel();
+                }
+            }
+        },
+        SystemPrompt {
+            id: enterPlayerNamePromt
+            body: qsTr("Please, enter your player name.")
+            inputField.emptyText: appSettings.defaulPlayerName()
+            onFinished: {
+                if (gameOverDialog.result ===
+                SystemUiResult.ConfirmButtonSelection) {
+                    appSettings.playerName = inputFieldTextEntry();
+                    leaderboardHelper.submitNewScore(mainScreenWebView.scoreValue,
+                    appSettings.difficulty, mainScreenWebView.levelValue);
+                    successfullSubmission.show();
                 }
             }
         },
