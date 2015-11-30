@@ -12,11 +12,18 @@ Page {
             leftMargin: 10
             topMargin: 10
             bottomMargin: 10
-            autoSize.maxLineCount: 2
+            textStyle {
+                base: SystemDefaults.TextStyles.BodyText
+            }
+            leftPadding: 10
+            rightPadding: 10
+            autoSize.maxLineCount: 3
             multiline: true
             layoutProperties: StackLayoutProperties {
                 spaceQuota: -1
             }
+        }
+        Divider {
         }
         Container {
             topMargin: 5
