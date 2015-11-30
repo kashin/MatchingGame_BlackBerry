@@ -142,47 +142,47 @@ Check your credenials and internet connectivity and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="36"/>
+        <location filename="../assets/game.qml" line="35"/>
         <source>Shown images: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="48"/>
+        <location filename="../assets/game.qml" line="47"/>
         <source>Current Level: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="64"/>
+        <location filename="../assets/game.qml" line="63"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="138"/>
+        <location filename="../assets/game.qml" line="137"/>
         <source>Back to Main Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="189"/>
+        <location filename="../assets/game.qml" line="188"/>
         <source>Your score is %1. Do you want to submit your score?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="191"/>
+        <location filename="../assets/game.qml" line="190"/>
         <source>Game Over</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="218"/>
+        <location filename="../assets/game.qml" line="217"/>
         <source>Please, enter your player name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="232"/>
+        <location filename="../assets/game.qml" line="231"/>
         <source>Submitting results.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="234"/>
+        <location filename="../assets/game.qml" line="233"/>
         <source>In progress...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -197,7 +197,7 @@ Check your credenials and internet connectivity and try again.</source>
     </message>
     <message>
         <location filename="../assets/main.qml" line="45"/>
-        <location filename="../assets/main.qml" line="83"/>
+        <location filename="../assets/main.qml" line="84"/>
         <source>Leaderboard</source>
         <translation type="unfinished"></translation>
     </message>

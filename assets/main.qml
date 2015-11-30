@@ -58,6 +58,7 @@ NavigationPane {
             ActionItem {
                 id: startGameAction
                 title: qsTr("Start Game")
+                imageSource: "asset:///images/startgame_icon.png"
                 ActionBar.placement: ActionBarPlacement.OnBar
                 shortcuts: [
                     Shortcut {
@@ -81,6 +82,7 @@ NavigationPane {
             ActionItem {
                 id: startLeaderBoardAction
                 title: qsTr("Leaderboard")
+                imageSource: "asset:///images/leaderboard_icon.png"
                 ActionBar.placement: ActionBarPlacement.OnBar
                 shortcuts: [
                     Shortcut {

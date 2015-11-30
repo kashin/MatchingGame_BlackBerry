@@ -15,10 +15,9 @@ Page {
             textStyle {
                 base: SystemDefaults.TextStyles.BodyText
             }
-            leftPadding: 10
-            rightPadding: 10
             autoSize.maxLineCount: 3
             multiline: true
+            horizontalAlignment: HorizontalAlignment.Center
             layoutProperties: StackLayoutProperties {
                 spaceQuota: -1
             }

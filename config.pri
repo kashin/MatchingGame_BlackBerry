@@ -47,6 +47,8 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/gameIcons/star.png) \
         $$quote($$BASEDIR/assets/images/gameIcons/sun.png) \
         $$quote($$BASEDIR/assets/images/game_background.png) \
+        $$quote($$BASEDIR/assets/images/leaderboard_icon.png) \
+        $$quote($$BASEDIR/assets/images/startgame_icon.png) \
         $$quote($$BASEDIR/assets/main.qml) \
         $$quote($$BASEDIR/assets/parseKey/parse_key.data)
 }

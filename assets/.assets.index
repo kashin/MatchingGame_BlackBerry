@@ -1,5 +1,5 @@
 1
-14
+16
 SettingsSheet.qml
 main.qml
 parseKey/parse_key.data
@@ -7,7 +7,9 @@ images/gameIcons/sun.png
 images/gameIcons/hamster.png
 images/gameIcons/smile.png
 images/gameIcons/star.png
+images/startgame_icon.png
 images/game_background.png
+images/leaderboard_icon.png
 LeaderboardPage.qml
 game.qml
 CredentialsDialog.qml
