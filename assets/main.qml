@@ -1,4 +1,5 @@
 import bb.cascades 1.4
+import bb.system 1.0
 import don.matching 1.0
 
 NavigationPane {
@@ -105,10 +106,21 @@ NavigationPane {
             }
         ]
     }
-    attachedObjects: LeaderboardHelper {
-        id: leaderboardHelper
-    }
+    attachedObjects: [
+        LeaderboardHelper {
+            id: leaderboardHelper
+        },
+        SystemDialog {
+            id: showDemoNoticeDialog
+            body: qsTr("Hello and welcome to the MatchingGame! " +
+"The only limit on this demo version compare to the Full game is the max level limitation. " +
+"If you liked the game play, please consider to buy the full version to beat everyone else all over the world!")
+            buttonAreaLimit: 1
+            cancelButton.label: ""
+        }
+    ]
     onCreationCompleted: {
         leaderboardHelper.sendAppOpenedEvent();
+        showDemoNoticeDialog.show();
     }
 }

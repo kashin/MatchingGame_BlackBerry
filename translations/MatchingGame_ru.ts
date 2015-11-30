@@ -191,16 +191,21 @@ Check your credenials and internet connectivity and try again.</source>
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="35"/>
-        <location filename="../assets/main.qml" line="60"/>
+        <location filename="../assets/main.qml" line="36"/>
+        <location filename="../assets/main.qml" line="61"/>
         <source>Start Game</source>
         <translation>Начать игру</translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="45"/>
-        <location filename="../assets/main.qml" line="84"/>
+        <location filename="../assets/main.qml" line="46"/>
+        <location filename="../assets/main.qml" line="85"/>
         <source>Leaderboard</source>
         <translation>Список Лидеров</translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="115"/>
+        <source>Hello and welcome to the MatchingGame! The only limit on this demo version compare to the Full game is the max level limitation. If you liked the game play, please consider to buy the full version to beat everyone else all over the world!</source>
+        <translation>Приветствую Вас в игре &quot;Найди Отличия&quot;! Единственное ограничение данной демо версии в сравнении с полной версией - это установленное ограничение на максимально возможный уровень. Если игра Вам понравилась, пожалуйста, подумайте над покупкой полной версии игры, чтобы получить возможность победить всех остальных по всему миру!</translation>
     </message>
 </context>
 </TS>

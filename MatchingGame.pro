@@ -1,4 +1,4 @@
-APP_NAME = MatchingGame
+APP_NAME = MatchingGameDemo
 
 CONFIG += qt warn_on cascades10
 LIBS += -lbbsystem

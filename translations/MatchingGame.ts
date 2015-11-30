@@ -160,5 +160,9 @@ Check your credenials and internet connectivity and try again.</source>
         <source>Leaderboard</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Hello and welcome to the MatchingGame! The only limit on this demo version compare to the Full game is the max level limitation. If you liked the game play, please consider to buy the full version to beat everyone else all over the world!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

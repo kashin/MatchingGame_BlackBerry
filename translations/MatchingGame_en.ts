@@ -190,15 +190,20 @@ Check your credenials and internet connectivity and try again.</source>
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="35"/>
-        <location filename="../assets/main.qml" line="60"/>
+        <location filename="../assets/main.qml" line="36"/>
+        <location filename="../assets/main.qml" line="61"/>
         <source>Start Game</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="45"/>
-        <location filename="../assets/main.qml" line="84"/>
+        <location filename="../assets/main.qml" line="46"/>
+        <location filename="../assets/main.qml" line="85"/>
         <source>Leaderboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="115"/>
+        <source>Hello and welcome to the MatchingGame! The only limit on this demo version compare to the Full game is the max level limitation. If you liked the game play, please consider to buy the full version to beat everyone else all over the world!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
