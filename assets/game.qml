@@ -60,16 +60,47 @@ Page {
         }
         Button {
             id: startButton
-            text: qsTr("Start")
+            property int buttonState: 0 // 0 - Start, 1 - Pause, 2 - Resume
+            property string startBtnText: qsTr("Start")
+            property string pauseBtnText: qsTr("Pause")
+            property string resumeBtnText: qsTr("Resume")
+            text: startBtnText
             topMargin: 10
             bottomMargin: 10
             horizontalAlignment: HorizontalAlignment.Center
             appearance: ControlAppearance.Primary
             onClicked: {
-                mainScreenWebView.startNewGame();
-                descriptionLabel.visible = false;
-                currentLevelLabel.text = currentLevelLabel.baseTextValue + '1';
-                currentImgLabel.text = currentImgLabel.baseTextValue + appSettings.difficulty;
+                switch (startButton.buttonState) {
+                    case 0:
+                        {
+                            mainScreenWebView.startNewGame();
+                            descriptionLabel.visible = false;
+                            currentLevelLabel.text = currentLevelLabel.baseTextValue + '1';
+                            currentImgLabel.text = currentImgLabel.baseTextValue + appSettings.difficulty;
+                            text = pauseBtnText;
+                            buttonState = 1;
+                            break;
+                        }
+                    case 1:
+                        {
+                            mainScreenWebView.pauseGame();
+                            text = resumeBtnText;
+                            buttonState = 2;
+                            break;
+                        }
+                    case 2:
+                        {
+                            mainScreenWebView.resumeGame();
+                            text = pauseBtnText;
+                            buttonState = 1;
+                            break;
+                        }
+                    default:
+                        {
+                            console.log("unhandled button state");
+                            break;
+                        }
+                }
             }
         }
         Label {
@@ -96,6 +127,17 @@ Page {
                     mainScreenWebView.postMessage("startGame");
                 }
 
+                function pauseGame() {
+                    mainScreenWebView.postMessage("pauseGame");
+                    roundTimer.pauseTimer();
+                }
+
+                function resumeGame() {
+                    mainScreenWebView.postMessage("resumeGame");
+                    mainScreenWebView.visible = true;
+                    roundTimer.resumeTimer();
+                }
+
                 onMessageReceived: {
                     console.log("received message: " + message.data);
                     if (message.data.indexOf("imgCounter") >= 0) {
@@ -110,7 +152,9 @@ Page {
                     } else if (message.data.indexOf("gameOver") >= 0) {
                         var data = message.data.substring(message.data.indexOf(":") + 1);
                         console.log("game over: " + data);
-                        page.showGameOverDialog()
+                        page.showGameOverDialog();
+                        startButton.buttonState = 0;
+                        startButton.text = startButton.startBtnText;
                     } else if (message.data.indexOf("readyToStart") >= 0) {
                         console.log("game is ready to start");
                     } else if (message.data === "gameLoaded") {
@@ -157,6 +201,14 @@ Page {
             property int maxCounterValue: 60 // for 60 seconds
             interval: 1000 // 1 second
             singleShot: true
+
+            function resumeTimer() {
+                start();
+            }
+
+            function pauseTimer() {
+                stop();
+            }
 
             function stopTimer() {
                 counter = 0;

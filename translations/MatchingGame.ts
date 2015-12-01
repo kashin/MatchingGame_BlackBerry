@@ -149,6 +149,14 @@ Check your credenials and internet connectivity and try again.</source>
         <source>In progress...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pause</translation>
+    </message>
+    <message>
+        <source>Resume</source>
+        <translation>Resume</translation>
+    </message>
 </context>
 <context>
     <name>main</name>

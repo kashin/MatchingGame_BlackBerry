@@ -152,37 +152,47 @@ Check your credenials and internet connectivity and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="63"/>
+        <location filename="../assets/game.qml" line="64"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="137"/>
+        <location filename="../assets/game.qml" line="65"/>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/game.qml" line="66"/>
+        <source>Resume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/game.qml" line="181"/>
         <source>Back to Main Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="188"/>
+        <location filename="../assets/game.qml" line="240"/>
         <source>Your score is %1. Do you want to submit your score?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="190"/>
+        <location filename="../assets/game.qml" line="242"/>
         <source>Game Over</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="217"/>
+        <location filename="../assets/game.qml" line="269"/>
         <source>Please, enter your player name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="231"/>
+        <location filename="../assets/game.qml" line="283"/>
         <source>Submitting results.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="233"/>
+        <location filename="../assets/game.qml" line="285"/>
         <source>In progress...</source>
         <translation type="unfinished"></translation>
     </message>
