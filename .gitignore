@@ -37,3 +37,4 @@ arm/Makefile.Release
 *.qmlproject.user.*
 
 .settings/*
+translations/*.qm
