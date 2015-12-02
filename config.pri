@@ -49,8 +49,7 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/game_background.png) \
         $$quote($$BASEDIR/assets/images/leaderboard_icon.png) \
         $$quote($$BASEDIR/assets/images/startgame_icon.png) \
-        $$quote($$BASEDIR/assets/main.qml) \
-        $$quote($$BASEDIR/assets/parseKey/parse_key.data)
+        $$quote($$BASEDIR/assets/main.qml)
 }
 
 config_pri_source_group1 {
@@ -72,6 +71,8 @@ config_pri_source_group1 {
         $$quote($$BASEDIR/src/SimpleJSONCreator.h) \
         $$quote($$BASEDIR/src/applicationui.hpp)
 }
+
+INCLUDEPATH += $$quote($$BASEDIR/src)
 
 CONFIG += precompile_header
 
@@ -101,10 +102,7 @@ lupdate_inclusion {
         $$quote($$BASEDIR/../assets/images/*.qs) \
         $$quote($$BASEDIR/../assets/images/gameIcons/*.qml) \
         $$quote($$BASEDIR/../assets/images/gameIcons/*.js) \
-        $$quote($$BASEDIR/../assets/images/gameIcons/*.qs) \
-        $$quote($$BASEDIR/../assets/parseKey/*.qml) \
-        $$quote($$BASEDIR/../assets/parseKey/*.js) \
-        $$quote($$BASEDIR/../assets/parseKey/*.qs)
+        $$quote($$BASEDIR/../assets/images/gameIcons/*.qs)
 
     HEADERS += \
         $$quote($$BASEDIR/../src/*.h) \

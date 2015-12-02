@@ -29,6 +29,16 @@ function startGame() {
   navigator.cascades.postMessage('gameStarted');
 }
 
+function pauseGame() {
+  leftSide.style.visibility = 'hidden';
+  rightSide.style.visibility = 'hidden';
+}
+
+function resumeGame() {
+  leftSide.style.visibility = 'visible';
+  rightSide.style.visibility = 'visible';
+}
+
 function stopGame() {
   leftSide.onclick = null;
   leftSide.lastChild.onclick = null;
@@ -92,6 +102,10 @@ navigator.cascades.onmessage = function onmessage(message) {
 	navigator.cascades.postMessage('readyToStart');
   } else if (message === 'gameOverTimer') {
     stopGame();
+  } else if (message === 'pauseGame') {
+    pauseGame();
+  } else if (message === 'resumeGame') {
+    resumeGame();
   } else {
     console.log('unhandled message: ' + message);
   }

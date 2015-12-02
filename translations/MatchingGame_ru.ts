@@ -153,37 +153,47 @@ Check your credenials and internet connectivity and try again.</source>
         <translation>Текущий уровень: </translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="63"/>
+        <location filename="../assets/game.qml" line="64"/>
         <source>Start</source>
         <translation>Начать</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="137"/>
+        <location filename="../assets/game.qml" line="65"/>
+        <source>Pause</source>
+        <translation>Приостановить</translation>
+    </message>
+    <message>
+        <location filename="../assets/game.qml" line="66"/>
+        <source>Resume</source>
+        <translation>Продолжить</translation>
+    </message>
+    <message>
+        <location filename="../assets/game.qml" line="181"/>
         <source>Back to Main Menu</source>
         <translation>Вернуться в основное меню</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="188"/>
+        <location filename="../assets/game.qml" line="240"/>
         <source>Your score is %1. Do you want to submit your score?</source>
         <translation>Ваш счет: %1. Желаете ли Вы отправить его на сервер?</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="190"/>
+        <location filename="../assets/game.qml" line="242"/>
         <source>Game Over</source>
         <translation>Игра Закончена</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="217"/>
+        <location filename="../assets/game.qml" line="269"/>
         <source>Please, enter your player name.</source>
         <translation>Пожалуйста, введите имя игрока.</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="231"/>
+        <location filename="../assets/game.qml" line="283"/>
         <source>Submitting results.</source>
         <translation>Отправляем счет на сервер.</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="233"/>
+        <location filename="../assets/game.qml" line="285"/>
         <source>In progress...</source>
         <translation>Отправляем...</translation>
     </message>

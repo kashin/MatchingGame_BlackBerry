@@ -22,8 +22,11 @@
 moc_*.cpp
 qrc_*.cpp
 ui_*.h
-Makefile*
 *-build-*
+arm/o.le-v7-g/.obj/*
+arm/Makefile
+arm/Makefile.Debug
+arm/Makefile.Release
 
 # QtCreator
 
@@ -34,3 +37,4 @@ Makefile*
 *.qmlproject.user.*
 
 .settings/*
+./translations/*.qm
