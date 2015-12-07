@@ -130,7 +130,7 @@ void LeaderboardHelper::configureStandardRequest(QNetworkRequest &request, const
     request.setUrl(url);
     qDebug() << "settings headers with keys:" << mAppId << mAPIKey;
     request.setRawHeader(APP_ID_HEADER, mAppId.toUtf8());
-    request.setRawHeader(REST_API_HEADER, mAPIKey.toUtf8());
+    request.setRawHeader(CLIENT_API_HEADER, mAPIKey.toUtf8());
 }
 
 void LeaderboardHelper::connectReplySignals()
