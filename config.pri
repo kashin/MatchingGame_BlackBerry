@@ -49,7 +49,8 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/game_background.png) \
         $$quote($$BASEDIR/assets/images/leaderboard_icon.png) \
         $$quote($$BASEDIR/assets/images/startgame_icon.png) \
-        $$quote($$BASEDIR/assets/main.qml)
+        $$quote($$BASEDIR/assets/main.qml) \
+        $$quote($$BASEDIR/assets/parseKey/parse_key.data)
 }
 
 config_pri_source_group1 {
@@ -102,7 +103,10 @@ lupdate_inclusion {
         $$quote($$BASEDIR/../assets/images/*.qs) \
         $$quote($$BASEDIR/../assets/images/gameIcons/*.qml) \
         $$quote($$BASEDIR/../assets/images/gameIcons/*.js) \
-        $$quote($$BASEDIR/../assets/images/gameIcons/*.qs)
+        $$quote($$BASEDIR/../assets/images/gameIcons/*.qs) \
+        $$quote($$BASEDIR/../assets/parseKey/*.qml) \
+        $$quote($$BASEDIR/../assets/parseKey/*.js) \
+        $$quote($$BASEDIR/../assets/parseKey/*.qs)
 
     HEADERS += \
         $$quote($$BASEDIR/../src/*.h) \

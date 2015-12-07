@@ -123,4 +123,7 @@ NavigationPane {
         leaderboardHelper.sendAppOpenedEvent();
         showDemoNoticeDialog.show();
     }
+    onPopTransitionEnded: {
+        page.destroy();
+    }
 }

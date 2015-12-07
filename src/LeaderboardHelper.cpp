@@ -76,7 +76,7 @@ void LeaderboardHelper::initialize()
     QByteArray appIdValue = file.readLine(200);
     QByteArray appKeyValue = file.readLine(200);
     mAppId = QString::fromUtf8(appIdValue.data(), appIdValue.length()).split(':').last().simplified();
-    mAPIKey = QString::fromUtf8(appKeyValue.data(), appKeyValue.length()).split(':').last();
+    mAPIKey = QString::fromUtf8(appKeyValue.data(), appKeyValue.length()).split(':').last().simplified();
     qDebug() << "mAppId=" << mAppId << "mAPIKey=" << mAPIKey;
 }
 
@@ -130,7 +130,7 @@ void LeaderboardHelper::configureStandardRequest(QNetworkRequest &request, const
     request.setUrl(url);
     qDebug() << "settings headers with keys:" << mAppId << mAPIKey;
     request.setRawHeader(APP_ID_HEADER, mAppId.toUtf8());
-    request.setRawHeader(CLIENT_API_HEADER, mAPIKey.toUtf8());
+    request.setRawHeader(REST_API_HEADER, mAPIKey.toUtf8());
 }
 
 void LeaderboardHelper::connectReplySignals()

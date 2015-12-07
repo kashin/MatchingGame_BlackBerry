@@ -24,6 +24,7 @@ qrc_*.cpp
 ui_*.h
 *-build-*
 arm/o.le-v7-g/.obj/*
+arm/o.le-v7-g/MatchingGame
 arm/Makefile
 arm/Makefile.Debug
 arm/Makefile.Release
