@@ -138,62 +138,62 @@ Check your credenials and internet connectivity and try again.</source>
 <context>
     <name>game</name>
     <message>
-        <location filename="../assets/game.qml" line="10"/>
+        <location filename="../assets/game.qml" line="11"/>
         <source>Find the extra image on the left side of the screen. You have 60 seconds to do it</source>
         <translation>Найдите лишнюю картинку на левой стороне экрана. У вас есть 60 секунд, чтобы сделать это.</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="35"/>
+        <location filename="../assets/game.qml" line="36"/>
         <source>Shown images: </source>
         <translation>Показано картинок: </translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="47"/>
+        <location filename="../assets/game.qml" line="48"/>
         <source>Current Level: </source>
         <translation>Текущий уровень: </translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="64"/>
+        <location filename="../assets/game.qml" line="65"/>
         <source>Start</source>
         <translation>Начать</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="65"/>
+        <location filename="../assets/game.qml" line="66"/>
         <source>Pause</source>
         <translation>Приостановить</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="66"/>
+        <location filename="../assets/game.qml" line="67"/>
         <source>Resume</source>
         <translation>Продолжить</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="181"/>
+        <location filename="../assets/game.qml" line="205"/>
         <source>Back to Main Menu</source>
         <translation>Вернуться в основное меню</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="240"/>
+        <location filename="../assets/game.qml" line="264"/>
         <source>Your score is %1. Do you want to submit your score?</source>
         <translation>Ваш счет: %1. Желаете ли Вы отправить его на сервер?</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="242"/>
+        <location filename="../assets/game.qml" line="266"/>
         <source>Game Over</source>
         <translation>Игра Закончена</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="269"/>
+        <location filename="../assets/game.qml" line="293"/>
         <source>Please, enter your player name.</source>
         <translation>Пожалуйста, введите имя игрока.</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="283"/>
+        <location filename="../assets/game.qml" line="307"/>
         <source>Submitting results.</source>
         <translation>Отправляем счет на сервер.</translation>
     </message>
     <message>
-        <location filename="../assets/game.qml" line="285"/>
+        <location filename="../assets/game.qml" line="309"/>
         <source>In progress...</source>
         <translation>Отправляем...</translation>
     </message>

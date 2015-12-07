@@ -111,4 +111,7 @@ NavigationPane {
     onCreationCompleted: {
         leaderboardHelper.sendAppOpenedEvent();
     }
+    onPopTransitionEnded: {
+        page.destroy();
+    }
 }

@@ -4,6 +4,7 @@ import don.matching 1.0
 
 Page {
     id: page
+
     Container {
         Label {
             id: descriptionLabel
@@ -69,10 +70,36 @@ Page {
             bottomMargin: 10
             horizontalAlignment: HorizontalAlignment.Center
             appearance: ControlAppearance.Primary
+
+            function pauseGame() {
+                if (startButton.buttonState === 1) {
+                    mainScreenWebView.pauseGame();
+                    text = resumeBtnText;
+                    buttonState = 2;
+                }
+            }
+
+            function resumeGame() {
+                if (startButton.buttonState === 2) {
+                    mainScreenWebView.resumeGame();
+                    text = pauseBtnText;
+                    buttonState = 1;
+                }
+            }
+
+            function gameOver() {
+                if (startButton.buttonState > 0) {
+                    Application.menuEnabled = true;
+                    startButton.buttonState = 0;
+                    startButton.text = startButton.startBtnText;
+                }
+            }
+
             onClicked: {
                 switch (startButton.buttonState) {
                     case 0:
                         {
+                            Application.menuEnabled = false;
                             mainScreenWebView.startNewGame();
                             descriptionLabel.visible = false;
                             currentLevelLabel.text = currentLevelLabel.baseTextValue + '1';
@@ -83,16 +110,14 @@ Page {
                         }
                     case 1:
                         {
-                            mainScreenWebView.pauseGame();
-                            text = resumeBtnText;
-                            buttonState = 2;
+                            Application.menuEnabled = true;
+                            pauseGame();
                             break;
                         }
                     case 2:
                         {
-                            mainScreenWebView.resumeGame();
-                            text = pauseBtnText;
-                            buttonState = 1;
+                            Application.menuEnabled = false;
+                            resumeGame();
                             break;
                         }
                     default:
@@ -153,8 +178,7 @@ Page {
                         var data = message.data.substring(message.data.indexOf(":") + 1);
                         console.log("game over: " + data);
                         page.showGameOverDialog();
-                        startButton.buttonState = 0;
-                        startButton.text = startButton.startBtnText;
+                        startButton.gameOver();
                     } else if (message.data.indexOf("readyToStart") >= 0) {
                         console.log("game is ready to start");
                     } else if (message.data === "gameLoaded") {
