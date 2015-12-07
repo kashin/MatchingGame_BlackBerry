@@ -29,20 +29,20 @@
     <id>com.don.MatchingGameDemo</id>
     <configuration name="Device-Debug">
        <platformArchitecture>armle-v7</platformArchitecture>
-       <asset path="arm/o.le-v7-g/MatchingGame" entry="true" type="Qnx/Elf">MatchingGame</asset>
+       <asset path="arm/o.le-v7-g/MatchingGameDemo" entry="true" type="Qnx/Elf">MatchingGameDemo</asset>
     </configuration>
     <configuration name="Device-Release">
        <entryPointType>Qnx/Cascades</entryPointType>
        <platformArchitecture>armle-v7</platformArchitecture>
-       <asset path="arm/o.le-v7/MatchingGame.so" entry="true" type="Qnx/Elf">MatchingGame.so</asset>
+       <asset path="arm/o.le-v7/MatchingGameDemo.so" entry="true" type="Qnx/Elf">MatchingGameDemo.so</asset>
     </configuration>
     <configuration name="Device-Profile">
        <platformArchitecture>armle-v7</platformArchitecture>
-       <asset path="arm-p/o.le-v7-g/MatchingGame" entry="true" type="Qnx/Elf">MatchingGame</asset>
+       <asset path="arm-p/o.le-v7-g/MatchingGameDemo" entry="true" type="Qnx/Elf">MatchingGameDemo</asset>
     </configuration>
     <configuration name="Simulator-Debug">
        <platformArchitecture>x86</platformArchitecture>
-       <asset path="x86/o-g/MatchingGame" entry="true" type="Qnx/Elf">MatchingGame</asset>
+       <asset path="x86/o-g/MatchingGameDemo" entry="true" type="Qnx/Elf">MatchingGameDemo</asset>
     </configuration>
 
     <!-- The name that is displayed in the BlackBerry 10 application installer.
