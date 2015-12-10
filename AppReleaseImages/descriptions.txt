@@ -1,0 +1,26 @@
+English short description:
+Find the missing image and increase your score!
+
+English description:
+This is a 'find missing image' game where you need to find an extra icon on the left side of the screen in 60 seconds. Find such image, increase your score and in the end share your score with everyone all over the world!
+
+keywords:
+puzzle
+find image
+matching game
+compare images
+hamster
+leaderboard
+
+Русское короткое описание:
+Находите отличия и зарабатывайте очки!
+
+Русское описание:
+Это простая игра, связанная с поиском лишней детали на левой половине экрана. Находите несоответствия, переходите на следующий уровень, зарабатывайте больше очков и сравнивайте свои результаты с другими игроками!
+
+ключевые слова:
+пазл
+найди отличия
+сравнить изображения
+хомяк
+лишняя иконка
